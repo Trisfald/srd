@@ -11,8 +11,9 @@ pub struct GenericRaceModel {
 
 impl GenericRaceModel {
     /// Adds a new ability score increase.
-    pub fn add_ability_score_increase(&mut self, id: AbilityId, score: AbilityScore) {
+    pub fn add_ability_score_increase(&mut self, id: AbilityId, score: AbilityScore) -> &mut Self {
         self.ability_score_increase.push((id, score));
+        self
     }
 }
 
@@ -29,8 +30,8 @@ mod tests {
     #[test]
     fn new() {
         let model = GenericRaceModel::new(vec![
-            (AbilityId(0), AbilityScore::new(1).unwrap()),
-            (AbilityId(2), AbilityScore::new(2).unwrap()),
+            (AbilityId(0), AbilityScore::capped(1)),
+            (AbilityId(2), AbilityScore::capped(2)),
         ]);
         assert_eq!(model.ability_score_increase().len(), 2);
     }

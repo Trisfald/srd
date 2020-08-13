@@ -56,6 +56,10 @@ pub const CHARISMA: AbilityId = AbilityId(5);
 /// Number of core abilities.
 pub const RESERVED_ABILITIES: u8 = 6;
 
+const ABILITY_SCORE_MIN: u8 = 1;
+
+const ABILITY_SCORE_MAX: u8 = 30;
+
 /// The numeric value of an ability.
 ///
 /// # Reference
@@ -73,7 +77,7 @@ pub struct AbilityScore {
 impl AbilityScore {
     /// Returns true if the given value is a valid ability score.
     pub fn is_value_valid(value: u8) -> bool {
-        value >= 1 && value <= 30
+        value >= ABILITY_SCORE_MIN && value <= ABILITY_SCORE_MAX
     }
 
     /// Creates a new `AbilityScore` with the given value.
@@ -86,6 +90,27 @@ impl AbilityScore {
             Ok(Self { value })
         } else {
             Err(SRDError::InvalidAbilityScore(value))
+        }
+    }
+
+    /// Creates a new `AbilityScore` capped between the min and max value.
+    pub fn capped(value: u8) -> Self {
+        if value > ABILITY_SCORE_MAX {
+            Self { value: ABILITY_SCORE_MAX }
+        } else if value < ABILITY_SCORE_MIN {
+            Self { value: ABILITY_SCORE_MIN }
+        } else {
+            Self { value }
+        }
+    }
+
+    /// Adds `value` to the current ability score's value, respecting the bounds.
+    pub fn add_with_cap(&mut self, value: u8) {
+        let new_value = self.value + value;
+        if new_value > ABILITY_SCORE_MAX {
+            self.value = ABILITY_SCORE_MAX;
+        } else {
+            self.value = new_value;
         }
     }
 
@@ -126,27 +151,40 @@ mod tests {
     #[test]
     fn ability_score_new_has_bounds() {
         assert!(AbilityScore::new(3).is_ok());
-        assert!(AbilityScore::new(0).is_err());
-        assert!(AbilityScore::new(31).is_err());
+        assert!(AbilityScore::new(ABILITY_SCORE_MIN - 1).is_err());
+        assert!(AbilityScore::new(ABILITY_SCORE_MAX + 1).is_err());
+    }
+
+    #[test]
+    fn ability_score_capped_respects_bounds() {
+        assert_eq!(AbilityScore::capped(ABILITY_SCORE_MIN - 1).value(), ABILITY_SCORE_MIN);
+        assert_eq!(AbilityScore::capped(ABILITY_SCORE_MAX + 1).value(), ABILITY_SCORE_MAX);
+    }
+
+    #[test]
+    fn ability_score_add_with_cap_respects_bounds() {
+        let mut ability = AbilityScore::capped(3);
+        ability.add_with_cap(ABILITY_SCORE_MAX);
+        assert_eq!(ability.value(), ABILITY_SCORE_MAX);
     }
 
     #[test]
     fn ability_score_set_has_bounds() {
-        let mut ability = AbilityScore::new(3).unwrap();
-        assert!(ability.set_value(0).is_err());
-        assert!(ability.set_value(31).is_err());
+        let mut ability = AbilityScore::capped(3);
+        assert!(ability.set_value(ABILITY_SCORE_MIN - 1).is_err());
+        assert!(ability.set_value(ABILITY_SCORE_MAX + 1).is_err());
         assert!(ability.set_value(2).is_ok());
         assert_eq!(ability.value(), 2);
     }
 
     #[test]
     fn ability_score_modifier() {
-        assert_eq!(AbilityScore::new(1).unwrap().modifier(), -5);
-        assert_eq!(AbilityScore::new(4).unwrap().modifier(), -3);
-        assert_eq!(AbilityScore::new(9).unwrap().modifier(), -1);
-        assert_eq!(AbilityScore::new(10).unwrap().modifier(), 0);
-        assert_eq!(AbilityScore::new(15).unwrap().modifier(), 2);
-        assert_eq!(AbilityScore::new(24).unwrap().modifier(), 7);
-        assert_eq!(AbilityScore::new(30).unwrap().modifier(), 10);
+        assert_eq!(AbilityScore::capped(1).modifier(), -5);
+        assert_eq!(AbilityScore::capped(4).modifier(), -3);
+        assert_eq!(AbilityScore::capped(9).modifier(), -1);
+        assert_eq!(AbilityScore::capped(10).modifier(), 0);
+        assert_eq!(AbilityScore::capped(15).modifier(), 2);
+        assert_eq!(AbilityScore::capped(24).modifier(), 7);
+        assert_eq!(AbilityScore::capped(30).modifier(), 10);
     }
 }

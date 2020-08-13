@@ -1,6 +1,8 @@
 //! Hill Dwarf race.
 
 use crate::character::race::generic_model::GenericRaceModel;
+use crate::character::race::dwarf::dwarf_model;
+use crate::ability::{AbilityScore, WISDOM};
 
 /// Id of the Hill Dwarf race.
 ///
@@ -15,5 +17,7 @@ pub const HILL_DWARF: &str = "_hill_dwarf";
 
 /// Returns the race model for Hill Dwarf.
 pub fn hill_dwarf_model() -> GenericRaceModel {
-    GenericRaceModel::default()
+    let mut model = dwarf_model();
+    model.add_ability_score_increase(WISDOM, AbilityScore::capped(1));
+    model
 }
