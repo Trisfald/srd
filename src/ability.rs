@@ -53,7 +53,7 @@ pub const WISDOM: AbilityId = AbilityId(4);
 /// Charisma measures force of personality.
 pub const CHARISMA: AbilityId = AbilityId(5);
 
-/// Number of reserved abilities (zero indexed).
+/// Number of core abilities.
 pub const RESERVED_ABILITIES: u8 = 6;
 
 /// The numeric value of an ability.

@@ -7,6 +7,8 @@ pub mod race;
 pub use self::race::{RaceId, RaceModel};
 
 use crate::ability::{AbilityId, AbilityScore};
+use crate::proficiency::Proficiency;
+use crate::skill::SkillId;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
@@ -30,7 +32,8 @@ pub struct Character {
     class: ClassId,
     /// The character's abilities.
     pub abilities: HashMap<AbilityId, AbilityScore>,
-    // bunch of skills <SkillId, Proficiency>
+    /// The character's proficiency in skills.
+    pub skills: HashMap<SkillId, Proficiency>,
 }
 
 impl Character {
@@ -40,12 +43,14 @@ impl Character {
         race: RaceId,
         class: ClassId,
         abilities: HashMap<AbilityId, AbilityScore>,
+        skills: HashMap<SkillId, Proficiency>,
     ) -> Self {
         let instance = Self {
             id,
             race,
             class,
             abilities,
+            skills,
         };
         log::debug!("created character {:?}", id);
         instance
@@ -57,13 +62,13 @@ impl Character {
     }
 
     /// Returns the character's race.
-    pub fn race(&self) -> RaceId {
-        self.race
+    pub fn race(&self) -> &RaceId {
+        &self.race
     }
 
     /// Returns the character's class.
-    pub fn class(&self) -> ClassId {
-        self.class
+    pub fn class(&self) -> &ClassId {
+        &self.class
     }
 }
 

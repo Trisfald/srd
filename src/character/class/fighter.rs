@@ -1,6 +1,6 @@
 //! Fighter class.
 
-use crate::character::class::{ClassId, ClassModel};
+use crate::character::class::ClassModel;
 
 /// Id of the Fighter class.
 ///
@@ -8,7 +8,7 @@ use crate::character::class::{ClassId, ClassModel};
 ///
 /// **Hit Dice:** 1d10 per fighter level\
 /// **Hit Points at 1st Level: 10 + your Constitution modifier
-pub const FIGHTER: ClassId = ClassId(0);
+pub const FIGHTER: &str = "_fighter";
 
 #[derive(Default)]
 /// Models the Fighter class.

@@ -1,11 +1,13 @@
-//! Character skills.
+//! Creatures skills.
+
+use serde::{Deserialize, Serialize};
 
 /// Identifies a skill.
 ///
 /// # Reference
 ///
 /// A skill represents a specific aspect of an ability score.
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Serialize, Deserialize)]
 pub struct SkillId(pub u8);
 
 /// Id of the Acrobatics skill.
@@ -127,5 +129,5 @@ pub const STEALTH: SkillId = SkillId(15);
 /// The Survival skill reflects aptitude in certain kinds of Wisdom checks.
 pub const SURVIVAL: SkillId = SkillId(16);
 
-/// Number of reserved skills (zero indexed).
+/// Number of core skills.
 pub const RESERVED_SKILLS: u8 = 17;

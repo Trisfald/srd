@@ -96,7 +96,7 @@ impl StandardCompendium {
 
     /// Adds all character races from the SRD.
     pub fn add_srd_races(&mut self) -> &mut Self {
-        self.add_race(HILL_DWARF, Box::new(hill_dwarf::HillDwarfModel::default()))
+        self.add_race(HILL_DWARF.into(), Box::new(hill_dwarf::hill_dwarf_model()))
     }
 
     /// Adds or replaces a character class and its model.
@@ -107,7 +107,7 @@ impl StandardCompendium {
 
     /// Adds all character classes from the SRD.
     pub fn add_srd_classes(&mut self) -> &mut Self {
-        self.add_class(FIGHTER, Box::new(fighter::FighterModel::default()))
+        self.add_class(FIGHTER.into(), Box::new(fighter::FighterModel::default()))
     }
 }
 
@@ -206,16 +206,14 @@ mod tests {
     #[test]
     fn standard_compendium_returns_correct_race_model() {
         let compendium = StandardCompendium::with_srd();
-        assert!(compendium.race_model(&HILL_DWARF).is_some());
-        assert!(compendium.race_model(&RaceId(RESERVED_RACES + 1)).is_none());
+        assert!(compendium.race_model(&HILL_DWARF.into()).is_some());
+        assert!(compendium.race_model(&"test".into()).is_none());
     }
 
     #[test]
     fn standard_compendium_returns_correct_class_model() {
         let compendium = StandardCompendium::with_srd();
-        assert!(compendium.class_model(&FIGHTER).is_some());
-        assert!(compendium
-            .class_model(&ClassId(RESERVED_CLASSES + 1))
-            .is_none());
+        assert!(compendium.class_model(&FIGHTER.into()).is_some());
+        assert!(compendium.class_model(&"test".into()).is_none());
     }
 }

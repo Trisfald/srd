@@ -1,6 +1,6 @@
 //! Hill Dwarf race.
 
-use crate::character::race::{RaceId, RaceModel};
+use crate::character::race::generic_model::GenericRaceModel;
 
 /// Id of the Hill Dwarf race.
 ///
@@ -11,10 +11,9 @@ use crate::character::race::{RaceId, RaceModel};
 ///
 /// ## Hill Dwarf
 /// **Ability Score Increase.** Your Wisdom score increases by 1.
-pub const HILL_DWARF: RaceId = RaceId(0);
+pub const HILL_DWARF: &str = "_hill_dwarf";
 
-#[derive(Default)]
-/// Models the Hill Dwarf race.
-pub(crate) struct HillDwarfModel {}
-
-impl RaceModel for HillDwarfModel {}
+/// Returns the race model for Hill Dwarf.
+pub fn hill_dwarf_model() -> GenericRaceModel {
+    GenericRaceModel::default()
+}
