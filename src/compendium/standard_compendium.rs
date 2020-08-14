@@ -46,8 +46,8 @@ impl StandardCompendium {
     }
 
     /// Adds a new ability.
-    pub fn add_ability(&mut self, ability: AbilityId) -> &mut Self {
-        self.abilities.insert(ability);
+    pub fn add_ability<T: Into<AbilityId>>(&mut self, ability: T) -> &mut Self {
+        self.abilities.insert(ability.into());
         self
     }
 
@@ -62,8 +62,12 @@ impl StandardCompendium {
     }
 
     /// Adds or replaces a skill and the ability to which it's connected.
-    pub fn add_skill(&mut self, skill: SkillId, dependency: AbilityId) -> &mut Self {
-        self.skills.insert(skill, dependency);
+    pub fn add_skill<T: Into<SkillId>, D: Into<AbilityId>>(
+        &mut self,
+        skill: T,
+        dependency: D,
+    ) -> &mut Self {
+        self.skills.insert(skill.into(), dependency.into());
         self
     }
 
@@ -89,25 +93,29 @@ impl StandardCompendium {
     }
 
     /// Adds or replaces a character race and its model.
-    pub fn add_race(&mut self, race: RaceId, model: Box<dyn RaceModel>) -> &mut Self {
-        self.races.insert(race, model);
+    pub fn add_race<T: Into<RaceId>>(&mut self, race: T, model: Box<dyn RaceModel>) -> &mut Self {
+        self.races.insert(race.into(), model);
         self
     }
 
     /// Adds all character races from the SRD.
     pub fn add_srd_races(&mut self) -> &mut Self {
-        self.add_race(HILL_DWARF.into(), Box::new(hill_dwarf::hill_dwarf_model()))
+        self.add_race(HILL_DWARF, Box::new(hill_dwarf::hill_dwarf_model()))
     }
 
     /// Adds or replaces a character class and its model.
-    pub fn add_class(&mut self, class: ClassId, model: Box<dyn ClassModel>) -> &mut Self {
-        self.classes.insert(class, model);
+    pub fn add_class<T: Into<ClassId>>(
+        &mut self,
+        class: T,
+        model: Box<dyn ClassModel>,
+    ) -> &mut Self {
+        self.classes.insert(class.into(), model);
         self
     }
 
     /// Adds all character classes from the SRD.
     pub fn add_srd_classes(&mut self) -> &mut Self {
-        self.add_class(FIGHTER.into(), Box::new(fighter::FighterModel::default()))
+        self.add_class(FIGHTER, Box::new(fighter::FighterModel::default()))
     }
 }
 

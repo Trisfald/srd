@@ -6,6 +6,8 @@ pub use self::class::{ClassId, ClassModel};
 pub mod race;
 pub use self::race::{RaceId, RaceModel};
 
+use self::class::fighter::FIGHTER;
+use self::race::hill_dwarf::HILL_DWARF;
 use crate::ability::{AbilityId, AbilityScore};
 use crate::proficiency::Proficiency;
 use crate::skill::SkillId;
@@ -14,8 +16,14 @@ use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
 
 /// A character unique identifier.
-#[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Serialize, Deserialize)]
-pub struct CharacterId(pub u8);
+#[derive(Debug, Clone, PartialEq, Hash, Eq, Serialize, Deserialize)]
+pub struct CharacterId(pub String);
+
+impl From<&str> for CharacterId {
+    fn from(item: &str) -> Self {
+        CharacterId(item.to_string())
+    }
+}
 
 /// A fictional character. The main entity of a game.
 ///
@@ -38,27 +46,26 @@ pub struct Character {
 
 impl Character {
     /// Creates a new character.
-    pub fn new(
-        id: CharacterId,
-        race: RaceId,
-        class: ClassId,
-        abilities: HashMap<AbilityId, AbilityScore>,
-        skills: HashMap<SkillId, Proficiency>,
-    ) -> Self {
+    pub fn new<I, R, C>(id: I, race: R, class: C) -> Self
+    where
+        I: Into<CharacterId>,
+        R: Into<RaceId>,
+        C: Into<ClassId>,
+    {
         let instance = Self {
-            id,
-            race,
-            class,
-            abilities,
-            skills,
+            id: id.into(),
+            race: race.into(),
+            class: class.into(),
+            abilities: HashMap::new(),
+            skills: HashMap::new(),
         };
-        log::debug!("created character {:?}", id);
+        log::debug!("created character {:?}", instance.id);
         instance
     }
 
     /// Returns the character's id.
-    pub fn id(&self) -> CharacterId {
-        self.id
+    pub fn id(&self) -> &CharacterId {
+        &self.id
     }
 
     /// Returns the character's race.
@@ -69,6 +76,36 @@ impl Character {
     /// Returns the character's class.
     pub fn class(&self) -> &ClassId {
         &self.class
+    }
+
+    /// Adds or replaces one ability.
+    pub fn add_ability<A: Into<AbilityId>>(
+        &mut self,
+        ability: A,
+        score: AbilityScore,
+    ) -> &mut Self {
+        self.abilities.insert(ability.into(), score);
+        self
+    }
+
+    /// Adds or replaces one skill.
+    pub fn add_skill<S, P>(&mut self, skill: S, proficiency: P) -> &mut Self
+    where
+        S: Into<SkillId>,
+        P: Into<Proficiency>,
+    {
+        self.skills.insert(skill.into(), proficiency.into());
+        self
+    }
+
+    /// Spawns a character in the given battle and returns an handler to it.
+    /// The character is guaranteed to be compliant with the rules contained in the current Compendium.
+    ///
+    /// # Errors
+    ///
+    /// An error is returned if the character is invalid.
+    pub fn spawn() {
+        // TODO
     }
 }
 
@@ -92,11 +129,11 @@ mod tests {
 
     #[test]
     fn equality() {
-        // TODO
-    }
-
-    #[test]
-    fn hash() {
-        // TODO
+        let c1 = Character::new("one", HILL_DWARF, FIGHTER);
+        let c2 = Character::new("two", HILL_DWARF, FIGHTER);
+        assert_ne!(c1, c2);
+        let mut c3 = Character::new("one", HILL_DWARF, FIGHTER);
+        c3.add_skill(1, true);
+        assert_eq!(c1, c3);
     }
 }

@@ -1,8 +1,8 @@
 //! Hill Dwarf race.
 
-use crate::character::race::generic_model::GenericRaceModel;
-use crate::character::race::dwarf::dwarf_model;
 use crate::ability::{AbilityScore, WISDOM};
+use crate::character::race::dwarf::dwarf_model;
+use crate::character::race::generic_model::GenericRaceModel;
 
 /// Id of the Hill Dwarf race.
 ///

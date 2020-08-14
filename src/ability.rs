@@ -11,6 +11,12 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Serialize, Deserialize)]
 pub struct AbilityId(pub u8);
 
+impl From<u8> for AbilityId {
+    fn from(item: u8) -> Self {
+        AbilityId(item)
+    }
+}
+
 /// Id of the Strength ability.
 ///
 /// # Reference
@@ -96,9 +102,13 @@ impl AbilityScore {
     /// Creates a new `AbilityScore` capped between the min and max value.
     pub fn capped(value: u8) -> Self {
         if value > ABILITY_SCORE_MAX {
-            Self { value: ABILITY_SCORE_MAX }
+            Self {
+                value: ABILITY_SCORE_MAX,
+            }
         } else if value < ABILITY_SCORE_MIN {
-            Self { value: ABILITY_SCORE_MIN }
+            Self {
+                value: ABILITY_SCORE_MIN,
+            }
         } else {
             Self { value }
         }
@@ -157,8 +167,14 @@ mod tests {
 
     #[test]
     fn ability_score_capped_respects_bounds() {
-        assert_eq!(AbilityScore::capped(ABILITY_SCORE_MIN - 1).value(), ABILITY_SCORE_MIN);
-        assert_eq!(AbilityScore::capped(ABILITY_SCORE_MAX + 1).value(), ABILITY_SCORE_MAX);
+        assert_eq!(
+            AbilityScore::capped(ABILITY_SCORE_MIN - 1).value(),
+            ABILITY_SCORE_MIN
+        );
+        assert_eq!(
+            AbilityScore::capped(ABILITY_SCORE_MAX + 1).value(),
+            ABILITY_SCORE_MAX
+        );
     }
 
     #[test]

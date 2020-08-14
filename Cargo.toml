@@ -13,7 +13,7 @@ categories = ["game-development"]
 license = "OGL"
 
 [dependencies]
-weasel = { version = "0.8", features = ["random", "serialization"] }
+weasel = { version = "0.9", features = ["random", "serialization"] }
 log = "0.4"
 serde = { version = "1.0", features = ["derive"] }
 derive-new = "0.5"

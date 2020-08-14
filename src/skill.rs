@@ -10,6 +10,12 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Serialize, Deserialize)]
 pub struct SkillId(pub u8);
 
+impl From<u8> for SkillId {
+    fn from(item: u8) -> Self {
+        SkillId(item)
+    }
+}
+
 /// Id of the Acrobatics skill.
 ///
 /// # Reference
