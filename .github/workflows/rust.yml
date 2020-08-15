@@ -16,10 +16,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build
-      run: cargo build
     - name: Check formatting
       run: cargo fmt --all -- --check
+    - name: Build
+      run: cargo build
     - name: Run linter
       run: cargo clippy --tests -- -D warnings
     - name: Run tests
