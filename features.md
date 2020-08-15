@@ -1,0 +1,796 @@
+# Features
+
+- [Features](#features)
+  - [Races](#races)
+  - [Classes](#classes)
+  - [Characters](#characters)
+  - [Feats](#feats)
+  - [Ability Scores](#ability-scores)
+  - [Combat](#combat)
+  - [Spellcasting](#spellcasting)
+  - [Spell Lists](#spell-lists)
+  - [Traps](#traps)
+  - [Diseases](#diseases)
+  - [Madness](#madness)
+  - [Objects](#objects)
+  - [Poisons](#poisons)
+  - [Magic Items](#magic-items)
+  - [Monsters](#monsters)
+
+## Races
+
+- [ ] Dwarf
+  - [x] Ability Score Increase
+  - [ ] Size
+  - [ ] Speed
+  - [ ] Darkvision
+  - [ ] Dwarven Resilience
+  - [ ] Dwarven Combat Training
+  - [ ] Tool Proficiency
+  - [ ] Stonecunning
+  - [ ] Languages
+  - [ ] Hill Dwarf
+      - [x] Ability Score Increase
+      - [ ] Dwarven Toughness
+- [ ] Elf
+  - [ ] Ability Score Increase
+  - [ ] Size
+  - [ ] Speed
+  - [ ] Darkvision
+  - [ ] Keen Senses
+  - [ ] Fey Ancestry
+  - [ ] Trance
+  - [ ] Languages
+  - [ ] High Elf
+    - [ ] Ability Score Increase
+    - [ ] Elf Weapon Training
+    - [ ] Cantrip
+    - [ ] Extra Language
+- [ ] Halfling
+  - [ ] Ability Score Increase
+  - [ ] Size
+  - [ ] Speed
+  - [ ] Lucky
+  - [ ] Brave
+  - [ ] Halfling Nimbleness
+  - [ ] Languages
+  - [ ] Lightfoot
+    - [ ] Ability Score Increase
+    - [ ] Naturally Stealthy
+- [ ] Human
+  - [ ] Ability Score Increase
+  - [ ] Size
+  - [ ] Speed
+  - [ ] Languages
+  - [ ] Dragonborn
+    - [ ] Ability Score Increase
+    - [ ] Size
+    - [ ] Speed
+    - [ ] Draconic Ancestry
+    - [ ] Breath Weapon
+    - [ ] Damage Resistance
+    - [ ] Languages
+- [ ] Gnome
+  - [ ] Ability Score Increase
+  - [ ] Size
+  - [ ] Speed
+  - [ ] Darkvision
+  - [ ] Gnome Cunning
+  - [ ] Languages
+  - [ ] Rock Gnome
+    - [ ] Ability Score Increase
+    - [ ] Artificer's Lore
+    - [ ] Tinker
+- [ ] Half-Elf
+  - [ ] Ability Score Increase
+  - [ ] Size
+  - [ ] Speed
+  - [ ] Darkvision
+  - [ ] Fey Ancestry
+  - [ ] Skill Versatility
+  - [ ] Languages
+- [ ] Half-Orc
+  - [ ] Ability Score Increase
+  - [ ] Size
+  - [ ] Speed
+  - [ ] Darkvision
+  - [ ] Menacing
+  - [ ] Relentless Endurance
+  - [ ] Savage Attacks
+  - [ ] Languages
+- [ ] Tiefling 
+  - [ ] Ability Score Increase
+  - [ ] Size
+  - [ ] Speed
+  - [ ] Darkvision
+  - [ ] Hellish Resistance
+  - [ ] Infernal Legacy
+  - [ ] Languages
+- [x] User Defined Races
+  - [ ] User Defined Racial Traits
+
+## Classes
+
+- [ ] Barbarian
+  - [ ] Hit Points and Proficiency Bonus
+    - [ ] 1st Level
+    - [ ] All Levels
+  - [ ] Proficiencies
+  - [ ] Equipment
+  - [ ] Rage
+  - [ ] Unarmored Defense
+  - [ ] Reckless Attack
+  - [ ] Danger Sense
+  - [ ] Primal Path
+  - [ ] Ability Score Improvement
+  - [ ] Extra Attack
+  - [ ] Fast Movement
+  - [ ] Feral Instinct
+  - [ ] Brutal Critical
+  - [ ] Relentless Rage
+  - [ ] Persistent Rage
+  - [ ] Indomitable Might
+  - [ ] Primal Champion
+  - [ ] Path of the Berserker
+    - [ ] Frenzy
+    - [ ] Mindless Rage
+    - [ ] Intimidating Presence
+    - [ ] Retaliation
+  - [ ] User Defined Primal Paths
+- [ ] Bard
+  - [ ] Hit Points and Proficiency Bonus
+    - [ ] 1st Level
+    - [ ] All Levels
+  - [ ] Proficiencies
+  - [ ] Equipment
+  - [ ] Spellcasting
+    - [ ] Cantrips
+    - [ ] Spell Slots
+    - [ ] Spells Known of 1st Level and Higher
+    - [ ] Spellcasting Ability
+    - [ ] Ritual Casting
+    - [ ] Spellcasting Focus
+  - [ ] Bardic Inspiration
+  - [ ] Jack of All Trades
+  - [ ] Song of Rest
+  - [ ] Bard College
+  - [ ] Expertise
+  - [ ] Ability Score Improvement
+  - [ ] Font of Inspiration
+  - [ ] Countercharm
+  - [ ] Magical Secrets
+  - [ ] Superior Inspiration    
+  - [ ] College of Lore
+    - [ ] Bonus Proficiencies
+    - [ ] Cutting Words
+    - [ ] Additional Magical Secrets
+    - [ ] Peerless Skill
+  - [ ] User Defined Bard Colleges
+- [ ] Cleric
+  - [ ] Hit Points and Proficiency Bonus
+    - [ ] 1st Level
+    - [ ] All Levels
+  - [ ] Proficiencies
+  - [ ] Equipment
+  - [ ] Spellcasting
+    - [ ] Preparing and Casting Spells
+    - [ ] Spellcasting Ability
+    - [ ] Ritual Casting
+    - [ ] Spellcasting Focus
+  - [ ] Divine Domain
+    - [ ] Domain Spells
+  - [ ] Channel Divinity
+  - [ ] Channel Divinity: Turn Undead
+  - [ ] Ability Score Improvement
+  - [ ] Destroy Undead
+  - [ ] Divine Intervention
+    - [ ] Life Domain
+    - [ ] Bonus Proficiency
+    - [ ] Disciple of Life
+    - [ ] Channel Divinity: Preserve Life
+    - [ ] Blessed Healer
+    - [ ] Divine Strike
+    - [ ] Supreme Healing
+  - [ ] User Defined Domains
+- [ ] Druid
+  - [ ] Hit Points and Proficiency Bonus
+    - [ ] 1st Level
+    - [ ] All Levels
+  - [ ] Proficiencies
+  - [ ] Equipment
+  - [ ] Druidic
+  - [ ] Spellcasting
+    - [ ] Cantrips
+    - [ ] Preparing and Casting Spells
+    - [ ] Spellcasting Ability
+    - [ ] Ritual Casting
+    - [ ] Spellcasting Focus
+  - [ ] Wild Shape
+  - [ ] Druid Circle
+  - [ ] Ability Score Improvement
+  - [ ] Timeless Body
+  - [ ] Beast Spells
+  - [ ] Archdruid
+  - [ ] Circle of the Land
+    - [ ] Bonus Cantrip
+    - [ ] Natural Recovery
+    - [ ] Circle Spells
+    - [ ] Land's Stride
+    - [ ] Nature's Ward
+    - [ ] Nature's Sanctuary
+  - [ ] User Defined Druid Circles
+- [ ] Fighter
+  - [ ] Hit Points and Proficiency Bonus
+    - [ ] 1st Level
+    - [ ] All Levels
+  - [ ] Proficiencies
+  - [ ] Equipment
+  - [ ] Fighting Style
+    - [ ] Archery
+    - [ ] Defense
+    - [ ] Dueling
+    - [ ] Great Weapon Fighting
+    - [ ] Protection
+    - [ ] Two-Weapon Fighting
+  - [ ] Second Wind
+  - [ ] Action Surge
+  - [ ] Martial Archetype
+  - [ ] Ability Score Improvement
+  - [ ] Extra Attack
+  - [ ] Indomitable
+  - [ ] Champion
+    - [ ] Improved Critical
+    - [ ] Remarkable Athlete
+    - [ ] Additional Fighting Style
+    - [ ] Superior Critical
+    - [ ] Survivor
+  - [ ] User Defined Martial Archetypes
+- [ ] Monk
+  - [ ] Hit Points and Proficiency Bonus
+    - [ ] 1st Level
+    - [ ] All Levels
+  - [ ] Proficiencies
+  - [ ] Equipment
+  - [ ] Unarmored defense
+  - [ ] Martial Arts
+  - [ ] Ki
+    - [ ] Flurry of Blows
+    - [ ] Patient Defense
+    - [ ] Step of the Wind
+  - [ ] Unarmored Movement
+  - [ ] Monastic Tradition
+  - [ ] Deflect Missiles
+  - [ ] Ability Score Improvement
+  - [ ] Slow Fall
+  - [ ] Extra Attack
+  - [ ] Stunning Strike
+  - [ ] Ki-Empowered Strikes
+  - [ ] Evasion
+  - [ ] Stillness of Mind
+  - [ ] Purity of Body
+  - [ ] Tongue of the Sun and Moon
+  - [ ] Diamond Soul
+  - [ ] Timeless Body
+  - [ ] Empty Body
+  - [ ] Perfect Self
+  - [ ] Way of the Open Hand
+    - [ ] Open Hand Technique
+    - [ ] Wholeness of Body
+    - [ ] Tranquility
+    - [ ] Quivering Palm
+  - [ ] User Defined Monastic Traditions
+- [ ] Paladin
+  - [ ] Hit Points and Proficiency Bonus
+    - [ ] 1st Level
+    - [ ] All Levels
+  - [ ] Proficiencies
+  - [ ] Equipment
+  - [ ] Divine Sense
+  - [ ] Lay on Hands
+  - [ ] Fighting Style
+    - [ ] Defense
+    - [ ] Dueling
+    - [ ] Great Weapon Fighting
+    - [ ] Protection
+  - [ ] Spellcasting
+    - [ ] Preparing and Casting Spells
+    - [ ] Spellcasting Ability
+    - [ ] Spellcasting Focus
+  - [ ] Divine Smite
+  - [ ] Divine Health
+  - [ ] Sacred Oath
+    - [ ] Oath Spells
+    - [ ] Channel Divinity
+  - [ ] Ability Score Improvement
+  - [ ] Extra Attack
+  - [ ] Aura of Protection
+  - [ ] Aura of Courage
+  - [ ] Improved Divine Smite
+  - [ ] Cleansing Touch
+  - [ ] Oath of Devotion
+    - [ ] Oath Spells
+    - [ ] Channel Divinity
+    - [ ] Aura of Devotion
+    - [ ] Purity of Spirit
+    - [ ] Holy Nimbus
+  - [ ] User Defined Sacred Oaths
+- [ ] Ranger
+  - [ ] Hit Points and Proficiency Bonus
+    - [ ] 1st Level
+    - [ ] All Levels
+  - [ ] Proficiencies
+  - [ ] Equipment
+  - [ ] Favored Enemy
+  - [ ] Natural Explorer
+  - [ ] Fighting Style
+    - [ ] Archery
+    - [ ] Defense
+    - [ ] Dueling
+    - [ ] Two-Weapon Fighting
+  - [ ] Spellcasting
+  - [ ] Spell Slots
+  - [ ] Spells Known of 1st Level and Higher
+  - [ ] Spellcasting Ability
+  - [ ] Ranger Archetype
+  - [ ] Primeval Awareness
+  - [ ] Ability Score Improvement
+  - [ ] Extra Attack
+  - [ ] Land's Stride
+  - [ ] Hide in Plain Sight
+  - [ ] Vanish
+  - [ ] Feral Senses
+  - [ ] Foe Slayer  
+  - [ ] Hunter
+    - [ ] Hunter's Prey
+    - [ ] Defensive Tactics
+    - [ ] Multiattack
+    - [ ] Superior Hunter's Defense
+  - [ ] User Defined Ranger Archetypes
+- [ ] Rogue
+  - [ ] Hit Points and Proficiency Bonus
+    - [ ] 1st Level
+    - [ ] All Levels
+  - [ ] Proficiencies
+  - [ ] Equipment
+  - [ ] Expertise
+  - [ ] Sneak Attack
+  - [ ] Thieves' Cant
+  - [ ] Cunning Action
+  - [ ] Roguish Archetype
+  - [ ] Ability Score Improvement
+  - [ ] Uncanny Dodge
+  - [ ] Evasion
+  - [ ] Reliable Talent
+  - [ ] Blindsense
+  - [ ] Slippery Mind
+  - [ ] Elusive
+  - [ ] Stroke of Luck
+  - [ ] Roguish Archetypes
+  - [ ] Thief
+    - [ ] Fast Hands
+    - [ ] Second-Story Work
+    - [ ] Supreme Sneak
+    - [ ] Use Magic Device
+    - [ ] Thief's Reflexes
+  - [ ] User Defined Roguish Archetypes
+- [ ] Sorcerer
+  - [ ] Hit Points and Proficiency Bonus
+    - [ ] 1st Level
+    - [ ] All Levels
+  - [ ] Proficiencies
+  - [ ] Equipment
+  - [ ] Spellcasting
+    - [ ] Cantrips
+    - [ ] Spell Slots
+    - [ ] Spells Known of 1st Level and Higher
+    - [ ] Spellcasting Ability
+    - [ ] Spellcasting Focus
+  - [ ] Sorcerous Origin
+  - [ ] Font of Magic
+    - [ ] Sorcery Points
+    - [ ] Flexible Casting
+  - [ ] Metamagic
+    - [ ] Careful Spell
+    - [ ] Distant Spell
+    - [ ] Empowered Spell
+    - [ ] Extended Spell
+    - [ ] Heightened Spell
+    - [ ] Quickened Spell
+    - [ ] Subtle Spell
+    - [ ] Twinned Spell
+  - [ ] Ability Score Improvement
+  - [ ] Sorcerous Restoration
+  - [ ] Draconic Bloodline
+    - [ ] Dragon Ancestor
+    - [ ] Draconic Resilience
+    - [ ] Elemental Affinity
+    - [ ] Dragon Wings
+    - [ ] Draconic Presence
+  - [ ] User Defined Sorcerous Origin
+- [ ] Warlock
+  - [ ] Hit Points and Proficiency Bonus
+    - [ ] 1st Level
+    - [ ] All Levels
+  - [ ] Proficiencies
+  - [ ] Equipment
+  - [ ] Otherworldly Patron
+  - [ ] Pact Magic
+    - [ ] Cantrips
+    - [ ] Spell Slots
+    - [ ] Spells Known of 1st Level and Higher
+    - [ ] Spellcasting Ability
+    - [ ] Spellcasting Focus
+  - [ ] Eldritch Invocations
+  - [ ] Pact Boon
+    - [ ] Pact of the Chain
+    - [ ] Pact of the Blade
+    - [ ] Pact of the Tome
+  - [ ] Ability Score Improvement
+  - [ ] Mystic Arcanum
+  - [ ] Eldritch Master
+  - [ ] Eldritch Invocations
+    - [ ] Agonizing Blast
+    - [ ] Armor of Shadows
+    - [ ] Ascendant Step
+    - [ ] Beast Speech
+    - [ ] Beguiling Influence
+    - [ ] Bewitching Whispers
+    - [ ] Book of Ancient Secrets
+    - [ ] Chains of Carceri
+    - [ ] Devil's Sight
+    - [ ] Dreadful Word
+    - [ ] Eldritch Sight
+    - [ ] Eldritch Spear
+    - [ ] Eyes of the Rune Keepe
+    - [ ] Fiendish Vigor
+    - [ ] Gaze of Two Minds
+    - [ ] Lifedrinker
+    - [ ] Mask of Many Faces
+    - [ ] Master of Myriad Forms
+    - [ ] Minions of Chaos
+    - [ ] Mire the Mind
+    - [ ] Misty Visions
+    - [ ] One with Shadows
+    - [ ] Otherworldly Leap
+    - [ ] Repelling Blast
+    - [ ] Sculptor of Flesh
+    - [ ] Sign of Ill Omen
+    - [ ] Thief of Five Fates
+    - [ ] Thirsting Blade
+    - [ ] Visions of Distant Realms
+    - [ ] Voice of the Chain Master
+    - [ ] Whispers of the Grave
+    - [ ] Witch Sight
+  - [ ] The Fiend
+    - [ ] Expanded Spell List
+    - [ ] Dark One's Blessing
+    - [ ] Dark One's Own Luck
+    - [ ] Diendish Resilience
+    - [ ] Hurl Through Hell
+  - [ ] User Defined Otherworldly Patrons
+- [ ] Wizard
+  - [ ] Hit Points and Proficiency Bonus
+    - [ ] 1st Level
+    - [ ] All Levels
+  - [ ] Proficiencies
+  - [ ] Equipment
+  - [ ] Spellcasting
+    - [ ] Cantrips
+    - [ ] Spellbook
+    - [ ] Preparing and Casting Spells
+    - [ ] Spellcasting Ability
+    - [ ] Ritual Casting
+    - [ ] Spellcasting Focus
+    - [ ] Learning Spells of 1st Level and Higher
+  - [ ] Arcane Recovery
+  - [ ] Arcane Tradition
+  - [ ] Ability Score Improvement
+  - [ ] Spell Mastery
+  - [ ] Signature Spells
+  - [ ] School of Evocation
+    - [ ] Evocation Savant
+    - [ ] Sculpt Spells
+    - [ ] Potent Cantrip
+    - [ ] Empowered Evocation
+    - [ ] Overchannel
+  - [ ] User Defined Arcane Traditions
+- [x] User Defined Classes
+  - [ ] User Defined Class Traits
+
+## Characters
+
+- [ ] Character Advancement
+- [ ] Battle consequences persistence
+- [ ] Multiclassing
+  - [ ] Prerequisites
+  - [ ] Experience Points
+  - [ ] Hit Points and Hit Dice
+  - [ ] Proficiency Bonus
+  - [ ] Proficiencies
+  - [ ] Class Features
+    - [ ] Channel Divinity
+    - [ ] Extra Attack
+    - [ ] Unarmored Defense
+    - [ ] Spellcasting
+- [ ] Alignment
+- [ ] Languages
+- [ ] Inspiration
+- [ ] Backgrounds
+  - [ ] Acolyte
+- [ ] Equipment
+  - [ ] Items
+  - [ ] Armor
+    - [ ] Armor Proficiency
+    - [ ] Armor Class (AC)
+    - [ ] Heavy Armor
+    - [ ] Stealth
+    - [ ] Shields
+  - [ ] Weapons
+    - [ ] Weapon Proficiency
+    - [ ] Weapon Properties
+      - [ ] Ammunition
+      - [ ] Finesse
+      - [ ] Heavy
+      - [ ] Light
+      - [ ] Loading
+      - [ ] Range
+      - [ ] Reach
+      - [ ] Special
+      - [ ] Thrown
+      - [ ] Two-­Handed
+      - [ ] Versatile
+    - [ ] Improvised Weapons
+    - [ ] Silvered Weapons
+    - [ ] Special Weapons
+      - [ ] Lance
+      - [ ] Net
+  - [ ] Adventuring Gear
+    - [ ] Acid
+    - [ ] Alchemist's Fire
+    - [ ] Antitoxin
+    - [ ] Arcane Focus
+    - [ ] Ball Bearings
+    - [ ] Block and Tackle
+    - [ ] Book
+    - [ ] Caltrops
+    - [ ] Candle
+    - [ ] Case, Crossbow Bolt
+    - [ ] Case, Map or Scroll
+    - [ ] Chain
+    - [ ] Climber's Kit
+    - [ ] Component Pouch
+    - [ ] Crowbar
+    - [ ] Druidic Focus
+    - [ ] Fishing Tackle
+    - [ ] Healer's Kit
+    - [ ] Holy Symbol
+    - [ ] Holy Water
+    - [ ] Hunting Trap
+    - [ ] Lamp
+    - [ ] Lantern, Bullseye
+    - [ ] Lantern, Hooded
+    - [ ] Lock
+    - [ ] Magnifying Glass
+    - [ ] Manacles
+    - [ ] Mess Kit
+    - [ ] Oil
+    - [ ] Poison, Basic
+    - [ ] Potion of Healing
+    - [ ] Pouch
+    - [ ] Quiver
+    - [ ] Ram, Portable
+    - [ ] Rations
+    - [ ] Rope
+    - [ ] Scale, Merchant's
+    - [ ] Spellbook
+    - [ ] Spyglass
+    - [ ] Tent
+    - [ ] Tinderbox
+    - [ ] Torch
+  - [ ] Tools
+    - [ ] Artisan's Tools
+    - [ ] Disguise Kit
+    - [ ] Forgery Kit
+    - [ ] Gaming Set
+    - [ ] Herbalism Kit
+    - [ ] Musical Instrument
+    - [ ] Navigator's Tools
+    - [ ] Poisoner's Kit
+    - [ ] Thieves' Tools
+  - [ ] Mounts and Vehicles
+    - [ ] Barding
+    - [ ] Saddles
+    - [ ] Vehicle Proficiency
+    - [ ] Rowed Vessels
+
+## Feats
+
+- [ ] Grappler
+- [ ] User Defined feats
+
+## Ability Scores
+
+- [x] Ability Scores and Modifiers
+- [ ] Advantage and Disadvantage
+- [ ] Proficiency Bonus
+- [ ] Ability Checks
+- [x] Skills
+- [ ] Skill Checks
+- [ ] Saving Throws
+- [ ] Movement
+  - [ ] Difficult Terrain
+  - [ ] Climbing, Swimming, and Crawling
+  - [ ] Jumping
+    - [ ] Long Jump
+    - [ ] High Jump
+
+## Combat
+
+- [ ] The Order of Combat
+  - [ ] Surprise
+  - [ ] Initiative
+  - [ ] Your Turn
+  - [ ] Bonus Actions
+  - [ ] Other Activity on Your Turn
+  - [ ] Reactions
+- [ ] Movement and Position
+  - [ ] Breaking Up Your Move
+  - [ ] Moving between Attacks
+  - [ ] Using Different Speeds
+  - [ ] Difficult Terrain
+  - [ ] Being Prone
+  - [ ] Moving Around Other Creatures
+  - [ ] Flying Movement
+  - [ ] Creature Size
+  - [ ] Space
+  - [ ] Squeezing into a Smaller Space
+- [ ] Actions in Combat
+  - [ ] Attack
+  - [ ] Cast a Spell
+  - [ ] Dash
+  - [ ] Disengage
+  - [ ] Dodge
+  - [ ] Help
+  - [ ] Hide
+  - [ ] Ready
+  - [ ] Search
+  - [ ] Use an Object
+- [ ] Making an Attack
+  - [ ] Attack Rolls
+    - [ ] Modifiers to the Roll
+    - [ ] Rolling 1 or 20
+  - [ ] Unseen Attackers and Targets
+  - [ ] Ranged Attacks
+    - [ ] Range
+    - [ ] Ranged Attacks in Close Combat
+  - [ ] Melee Attacks
+    - [ ] Opportunity Attacks
+    - [ ] Two-Weapon Fighting
+    - [ ] Grappling
+    - [ ] Shoving a Creature
+  - [ ] Cover
+- [ ] Damage and Healing
+  - [ ] Hit Points
+  - [ ] Damage Rolls
+    - [ ] Critical Hits
+    - [ ] Damage Types
+  - [ ] Damage Resistance and Vulnerability
+  - [ ] Healing
+  - [ ] Dropping to 0 Hit Points
+    - [ ] Instant Death
+    - [ ] Falling Unconscious
+    - [ ] Death Saving Throws
+    - [ ] Stabilizing a Creature
+  - [ ] Knocking a Creature Out
+  - [ ] Temporary Hit Points
+- [ ] Mounted Combat
+  - [ ] Mounting and Dismounting
+  - [ ] Controlling a Mount
+- [ ] Underwater Combat
+
+## Spellcasting
+
+- [ ] Spell Level
+- [ ] Known and Prepared Spells
+- [ ] Spell Slots
+- [ ] Casting a Spell at a Higher Level
+- [ ] Casting in Armor
+- [ ] Cantrips
+- [ ] Rituals
+- [ ] Casting a Spell
+  - [ ] Casting Time
+    - [ ] Bonus Action
+    - [ ] Reactions
+    - [ ] Longer Casting Times
+  - [ ] Range
+  - [ ] Components
+  - [ ] Duration
+    - [ ] Instantaneous
+    - [ ] Concentration
+  - [ ] Targets
+    - [ ] A Clear Path to the Target
+    - [ ] Targeting Yourself
+  - [ ] Areas of Effect
+    - [ ] Cone
+    - [ ] Cube
+    - [ ] Cylinder
+    - [ ] Line
+    - [ ] Sphere
+  - [ ] Saving Throws
+  - [ ] Attack Rolls
+  - [ ] Combining Magical Effects
+
+## Spell Lists
+
+TODO page 105
+
+## Traps
+
+- [ ] Triggering a Trap
+- [ ] Detecting and Disabling a Trap
+- [ ] Trap Effects
+- [ ] Complex Traps
+- [ ] Sample Traps
+  - [ ] Collapsing Roof
+  - [ ] Falling Net
+  - [ ] Fire-Breathing Statue
+  - [ ] Pits
+  - [ ] Poison Darts
+  - [ ] Poison Needle
+  - [ ] Rolling Sphere
+  - [ ] Sphere of Annihilation
+
+## Diseases
+
+- [ ] Cackle Fever
+- [ ] Sewer Plague
+- [ ] Sight Rot
+
+## Madness
+
+- [ ] Going Mad
+- [ ] Madness Effects
+  - [ ] Short-­Term Madness
+  - [ ] Long-­Term Madness
+  - [ ] Indefinite Madness
+- [ ] Curing Madness
+
+## Objects
+
+- [ ] Statistics for Object
+
+## Poisons
+
+- [ ] Sample Poisons
+  - [ ] Assassin's blood
+  - [ ] Burnt othur fumes
+  - [ ] Crawler mucus
+  - [ ] Drow poison
+  - [ ] Essence of ether
+  - [ ] Malice
+  - [ ] Midnight tears
+  - [ ] Oil of taggit
+  - [ ] Pale tincture
+  - [ ] Purple worm poison
+  - [ ] Serpent venom
+  - [ ] Torpor
+  - [ ] Truth serum
+  - [ ] Wyvern poison
+
+## Magic Items
+
+- [ ] Attunement
+- [ ] Wearing and Wielding Items
+  - [ ] Multiple Items of the Same Kind
+  - [ ] Paired Items
+- [ ] Activating an Item
+  - [ ] Command Word
+  - [ ] Consumables
+  - [ ] Spells
+  - [ ] Charges
+- [ ] Magic Items A-Z 
+TODO page 207
+
+## Monsters 
+
+TODO page 254
