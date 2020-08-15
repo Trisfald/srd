@@ -12,6 +12,7 @@ pub(crate) struct PackageVersion {
 }
 
 impl PackageVersion {
+    #[allow(dead_code)] // TODO remove as soon as this's used
     pub(crate) const fn new(major: u16, minor: u16, patch: u16) -> Self {
         Self {
             major,
@@ -21,6 +22,7 @@ impl PackageVersion {
     }
 
     /// Constructs a PackageVersion from the environmental variables exposed by cargo.
+    #[allow(dead_code)] // TODO remove as soon as this's used
     pub(crate) fn from_env() -> Self {
         let major = VERSION_MAJOR.parse().unwrap();
         let minor = VERSION_MINOR.parse().unwrap();

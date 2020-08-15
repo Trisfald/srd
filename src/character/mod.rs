@@ -6,8 +6,6 @@ pub use self::class::{ClassId, ClassModel};
 pub mod race;
 pub use self::race::{RaceId, RaceModel};
 
-use self::class::fighter::FIGHTER;
-use self::race::hill_dwarf::HILL_DWARF;
 use crate::ability::{AbilityId, AbilityScore};
 use crate::proficiency::Proficiency;
 use crate::skill::SkillId;
@@ -125,6 +123,8 @@ impl Hash for Character {
 
 #[cfg(test)]
 mod tests {
+    use self::class::fighter::FIGHTER;
+    use self::race::hill_dwarf::HILL_DWARF;
     use super::*;
 
     #[test]

@@ -166,8 +166,8 @@ impl Compendium for StandardCompendium {
 mod tests {
     use super::*;
     use crate::ability::{DEXTERITY, RESERVED_ABILITIES};
-    use crate::character::{class::FIGHTER, class::RESERVED_CLASSES, ClassId};
-    use crate::character::{race::HILL_DWARF, race::RESERVED_RACES, RaceId};
+    use crate::character::class::FIGHTER;
+    use crate::character::race::HILL_DWARF;
     use crate::skill::{SkillId, ACROBATICS, RESERVED_SKILLS};
     use crate::{compendium, set_boxed_compendium, Compendium};
     use std::thread;
