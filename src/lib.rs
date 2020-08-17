@@ -30,6 +30,7 @@ pub mod proficiency;
 pub use crate::proficiency::{Proficiency, ProficiencyBonus};
 
 pub mod rules;
+pub use crate::rules::{narrator::Narrator, SRDRules, SRDRulesVersion};
 
 pub mod skill;
 pub use self::skill::SkillId;
