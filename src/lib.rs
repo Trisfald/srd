@@ -17,11 +17,17 @@ pub use crate::compendium::{compendium, set_boxed_compendium, set_compendium, Co
 
 pub mod constants;
 
+pub mod dice;
+pub use crate::dice::{Dice, DicePool, DiceRoll, DiceRolls, Die};
+
 pub mod error;
 pub use crate::error::{SRDError, SRDResult};
 
+pub mod hit_points;
+pub use crate::hit_points::{HitDice, HitPoints};
+
 pub mod proficiency;
-pub use crate::proficiency::Proficiency;
+pub use crate::proficiency::{Proficiency, ProficiencyBonus};
 
 pub mod rules;
 
@@ -29,3 +35,5 @@ pub mod skill;
 pub use self::skill::SkillId;
 
 pub(crate) mod util;
+
+pub mod value;

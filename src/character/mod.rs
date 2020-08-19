@@ -3,6 +3,9 @@
 pub mod class;
 pub use self::class::{ClassId, ClassModel};
 
+pub mod level;
+pub use self::level::Level;
+
 pub mod race;
 pub use self::race::{RaceId, RaceModel};
 
@@ -36,6 +39,7 @@ pub struct Character {
     id: CharacterId,
     race: RaceId,
     class: ClassId,
+    level: Level,
     /// The character's abilities.
     pub abilities: HashMap<AbilityId, AbilityScore>,
     /// The character's proficiency in skills.
@@ -43,7 +47,7 @@ pub struct Character {
 }
 
 impl Character {
-    /// Creates a new character.
+    /// Constructs a new `Character`.
     pub fn new<I, R, C>(id: I, race: R, class: C) -> Self
     where
         I: Into<CharacterId>,
@@ -54,6 +58,7 @@ impl Character {
             id: id.into(),
             race: race.into(),
             class: class.into(),
+            level: Level::default(),
             abilities: HashMap::new(),
             skills: HashMap::new(),
         };
@@ -74,6 +79,11 @@ impl Character {
     /// Returns the character's class.
     pub fn class(&self) -> &ClassId {
         &self.class
+    }
+
+    /// Returns the character's level.
+    pub fn level(&self) -> &Level {
+        &self.level
     }
 
     /// Adds or replaces one ability.

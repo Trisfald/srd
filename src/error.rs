@@ -16,6 +16,8 @@ pub enum SRDError {
     SetCompendiumError,
     /// Ability score having an invalid value.
     InvalidAbilityScore(u8),
+    /// Invalid character level.
+    InvalidLevel(u8),
 }
 
 impl Display for SRDError {
@@ -27,6 +29,7 @@ impl Display for SRDError {
             InvalidAbilityScore(value) => {
                 write!(f, "the value {:?} is not valid for an ability score", value)
             }
+            InvalidLevel(value) => write!(f, "the value {:?} is not a valid level", value),
         }
     }
 }

@@ -28,7 +28,7 @@ impl StandardCompendium {
         }
     }
 
-    /// Creates a compendium with all modules from the SRD.
+    /// Constructs a new `StandardCompendium` with all modules from the SRD.
     pub fn with_srd() -> Self {
         let mut compendium = Self::empty();
         compendium
@@ -120,7 +120,7 @@ impl StandardCompendium {
 }
 
 impl Default for StandardCompendium {
-    /// Creates a compendium without any registered module.
+    /// Constructs a new `StandardCompendium` without any registered module.
     fn default() -> Self {
         let compendium = Self::empty();
         log::debug!("created an empty standard compendium");

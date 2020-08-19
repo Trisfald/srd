@@ -62,9 +62,11 @@ pub const CHARISMA: AbilityId = AbilityId(5);
 /// Number of core abilities.
 pub const RESERVED_ABILITIES: u8 = 6;
 
-const ABILITY_SCORE_MIN: u8 = 1;
+/// Minimum ability score.
+pub const ABILITY_SCORE_MIN: u8 = 1;
 
-const ABILITY_SCORE_MAX: u8 = 30;
+/// Maximum ability score.
+pub const ABILITY_SCORE_MAX: u8 = 30;
 
 /// The numeric value of an ability.
 ///
@@ -83,10 +85,10 @@ pub struct AbilityScore {
 impl AbilityScore {
     /// Returns true if the given value is a valid ability score.
     pub fn is_value_valid(value: u8) -> bool {
-        value >= ABILITY_SCORE_MIN && value <= ABILITY_SCORE_MAX
+        crate::util::is_value_valid(value, ABILITY_SCORE_MIN, ABILITY_SCORE_MAX)
     }
 
-    /// Creates a new `AbilityScore` with the given value.
+    /// Constructs a new `AbilityScore` with the given value.
     ///
     /// # Errors
     ///
@@ -99,7 +101,7 @@ impl AbilityScore {
         }
     }
 
-    /// Creates a new `AbilityScore` capped between the min and max value.
+    /// Constructs a new `AbilityScore` capped between the min and max value.
     pub fn capped(value: u8) -> Self {
         if value > ABILITY_SCORE_MAX {
             Self {
