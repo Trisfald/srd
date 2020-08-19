@@ -21,6 +21,6 @@ jobs:
     - name: Build
       run: cargo build
     - name: Run linter
-      run: cargo clippy --tests -- -D warnings
+      run: cargo clippy --tests --all-targets --all-features -- -D warnings
     - name: Run tests
       run: cargo test
