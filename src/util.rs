@@ -32,6 +32,7 @@ impl PackageVersion {
 }
 
 pub(crate) fn is_value_valid<T: PartialOrd>(value: T, min: T, max: T) -> bool {
+    assert!(min <= max);
     value >= min && value <= max
 }
 

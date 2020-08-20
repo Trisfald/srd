@@ -4,10 +4,10 @@ use crate::error::{SRDError, SRDResult};
 use serde::{Deserialize, Serialize};
 
 /// Minimum level.
-pub const LEVEL_MIN: u8 = 1;
+const LEVEL_MIN: u8 = 1;
 
 /// Maximum level.
-pub const LEVEL_MAX: u8 = 20;
+const LEVEL_MAX: u8 = 20;
 
 /// Character's level.
 ///
