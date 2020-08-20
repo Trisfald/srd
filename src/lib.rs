@@ -13,7 +13,9 @@ pub mod character;
 pub use crate::character::Character;
 
 pub mod compendium;
-pub use crate::compendium::{compendium, set_boxed_compendium, set_compendium, Compendium};
+pub use crate::compendium::{
+    compendium, init_srd_compendium, set_boxed_compendium, set_compendium, Compendium,
+};
 
 pub mod constants;
 
