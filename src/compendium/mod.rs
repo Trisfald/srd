@@ -142,6 +142,28 @@ where
     }
 }
 
+/// Convenience method to initialize and set a `StandardCompendium` containing all the
+/// rules from the SRD.
+///
+/// # Panics
+///
+/// The method panics if another compendium has been already set.
+///
+/// # Examples
+///
+/// ```
+/// use srd::{compendium, init_srd_compendium};
+///
+/// fn main() {
+///     init_srd_compendium();
+///     assert_eq!(compendium().abilities().count(), srd::ability::RESERVED_ABILITIES.into());
+/// }
+/// ```
+pub fn init_srd_compendium() {
+    set_boxed_compendium(Box::new(StandardCompendium::with_srd()))
+        .expect("failed to set the compendium!");
+}
+
 /// Returns a reference to the compendium.
 ///
 /// If a compendium has not been set, a no-op implementation is returned.

@@ -1,7 +1,25 @@
 //! Utility functions.
 
 use crate::constants::{VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH};
+use crate::error::SRDResult;
 use serde::{Deserialize, Serialize};
+use weasel::{EventTrigger, ResetEntropy, Server};
+
+/// Reset the battle pseudo random number generator with a fairly good seed.
+/// The change will be propagated to all clients.\
+/// Returns the generated seed.
+///
+/// The seed is computed from the current time. Do not use for cryptographic purposes.
+pub fn seed_battle_prng(server: &mut Server<SRDRules>) -> SRDResult<u64> {
+    let time = std::time::SystemTime::now()
+        .duration_since(std::time::SystemTime::UNIX_EPOCH)
+        .expect("Duration since UNIX_EPOCH failed");
+    let secs = time.as_secs();
+    let nanos = (time.subsec_nanos() as u64) << 32;
+    let seed = secs + nanos;
+    ResetEntropy::trigger(&mut server).seed(seed).fire()?;
+    Ok(seed)
+}
 
 #[derive(Debug, PartialEq, Clone, Copy, Serialize, Deserialize)]
 /// Represents the version of this package as specified in `Cargo.toml`.
