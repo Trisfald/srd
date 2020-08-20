@@ -220,8 +220,8 @@
     - [ ] Nature's Sanctuary
   - [ ] User Defined Druid Circles
 - [ ] Fighter
-  - [ ] Hit Points and Proficiency Bonus
-    - [ ] 1st Level
+  - [x] Hit Points and Proficiency Bonus
+    - [x] 1st Level
     - [ ] All Levels
   - [ ] Proficiencies
   - [ ] Equipment
@@ -504,8 +504,8 @@
 - [ ] Multiclassing
   - [ ] Prerequisites
   - [ ] Experience Points
-  - [ ] Hit Points and Hit Dice
-  - [ ] Proficiency Bonus
+  - [x] Hit Points and Hit Dice
+  - [x] Proficiency Bonus
   - [ ] Proficiencies
   - [ ] Class Features
     - [ ] Channel Divinity

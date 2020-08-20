@@ -21,7 +21,7 @@ impl PackageVersion {
         }
     }
 
-    /// Constructs a PackageVersion from the environmental variables exposed by cargo.
+    /// Constructs a new `PackageVersion` from the environmental variables exposed by cargo.
     #[allow(dead_code)] // TODO remove as soon as this's used
     pub(crate) fn from_env() -> Self {
         let major = VERSION_MAJOR.parse().unwrap();
@@ -29,6 +29,11 @@ impl PackageVersion {
         let patch = VERSION_PATCH.parse().unwrap();
         Self::new(major, minor, patch)
     }
+}
+
+pub(crate) fn is_value_valid<T: PartialOrd>(value: T, min: T, max: T) -> bool {
+    assert!(min <= max);
+    value >= min && value <= max
 }
 
 #[cfg(test)]
