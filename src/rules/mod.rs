@@ -4,6 +4,8 @@ pub mod actor_rules;
 
 pub mod character_rules;
 
+pub mod core;
+
 pub mod fight_rules;
 
 pub mod narrator;
@@ -46,7 +48,7 @@ impl<N: Narrator> SRDRules<N> {
     /// Creates a new instance of these rules.
     pub fn new(narrator: N) -> Self {
         let narrator = Arc::new(narrator);
-        Self {
+        let instance = Self {
             narrator: narrator.clone(),
             team_rules: SRDTeamRules::new(narrator.clone()),
             character_rules: SRDCharacterRules::new(narrator.clone()),
@@ -57,7 +59,9 @@ impl<N: Narrator> SRDRules<N> {
             rounds_rules: Some(SRDRoundsRules::new(narrator)),
             entropy_rules: UniformDistribution::default(),
             version: SRDRulesVersion::new(compendium().version(), PackageVersion::from_env()),
-        }
+        };
+        log::debug!("created a new instance of SRDRules");
+        instance
     }
 
     /// Returns the narrator of the battle.

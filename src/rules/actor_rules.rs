@@ -1,11 +1,10 @@
 //! Implementation of rules for actors.
 
+use crate::rules::core::action::{Action, ActionsSeed};
 use crate::rules::narrator::Narrator;
 use crate::rules::SRDRules;
 use std::sync::Arc;
-use weasel::{
-    Action, Actor, ActorRules, BattleState, Entropy, EventQueue, WeaselResult, WriteMetrics,
-};
+use weasel::{Actor, ActorRules, BattleState, Entropy, EventQueue, WeaselResult, WriteMetrics};
 
 /// Rules to manage abilities that can be activated and any action a character can take.
 pub struct SRDActorRules<N: Narrator> {
@@ -21,8 +20,8 @@ impl<'a, N: Narrator> SRDActorRules<N> {
 }
 
 impl<N: Narrator> ActorRules<SRDRules<N>> for SRDActorRules<N> {
-    type Ability = weasel::rules::empty::EmptyAbility; // TODO use a real type
-    type AbilitiesSeed = (); // TODO use a real type
+    type Ability = Action;
+    type AbilitiesSeed = ActionsSeed;
     type Activation = (); // TODO use a real type
     type AbilitiesAlteration = (); // TODO use a real type
 
@@ -38,7 +37,7 @@ impl<N: Narrator> ActorRules<SRDRules<N>> for SRDActorRules<N> {
     fn activable(
         &self,
         _state: &BattleState<SRDRules<N>>,
-        _action: Action<SRDRules<N>>,
+        _action: weasel::Action<SRDRules<N>>,
     ) -> WeaselResult<(), SRDRules<N>> {
         unimplemented!()
     }
@@ -46,7 +45,7 @@ impl<N: Narrator> ActorRules<SRDRules<N>> for SRDActorRules<N> {
     fn activate(
         &self,
         _state: &BattleState<SRDRules<N>>,
-        _action: Action<SRDRules<N>>,
+        _action: weasel::Action<SRDRules<N>>,
         _event_queue: &mut Option<EventQueue<SRDRules<N>>>,
         _entropy: &mut Entropy<SRDRules<N>>,
         _metrics: &mut WriteMetrics<SRDRules<N>>,
