@@ -14,7 +14,7 @@ pub struct SRDActorRules<N: Narrator> {
 
 impl<'a, N: Narrator> SRDActorRules<N> {
     /// Creates a new instance.
-    pub fn new(narrator: Arc<N>) -> Self {
+    pub(crate) fn new(narrator: Arc<N>) -> Self {
         Self { narrator }
     }
 }

@@ -1,29 +1,42 @@
 //! Implementation of rules for teams.
 
-use crate::character::CharacterId;
+use crate::error::SRDResult;
 use crate::rules::narrator::Narrator;
 use crate::rules::SRDRules;
 use std::sync::Arc;
-use weasel::TeamRules;
+use weasel::{BattleController, CreateTeam, EventTrigger, Server, TeamRules};
+
+pub(crate) const GLOBAL_TEAM_ID: u8 = 0;
 
 /// Teams do not exists per se in the SRD, but weasel requires them.\
-/// The easy solution is have a one to one mapping between character and team.
+/// The easy solution is have one team for all creatures.\
 /// There's no need to implement any specific behavior for teams.
 pub struct SRDTeamRules<N: Narrator> {
-    #[allow(dead_code)] // TODO remove
+    #[allow(dead_code)]
     narrator: Arc<N>,
 }
 
 impl<N: Narrator> SRDTeamRules<N> {
     /// Creates a new instance.
-    pub fn new(narrator: Arc<N>) -> Self {
+    pub(crate) fn new(narrator: Arc<N>) -> Self {
         Self { narrator }
     }
 }
 
 impl<N: Narrator> TeamRules<SRDRules<N>> for SRDTeamRules<N> {
-    // Same as the Id for Characters.
-    type Id = CharacterId;
+    type Id = u8;
     type ObjectivesSeed = ();
     type Objectives = ();
+}
+
+/// Creates the global team if it does not exist yet.
+pub(crate) fn create_global_team<N>(server: &mut Server<SRDRules<N>>) -> SRDResult<()>
+where
+    N: 'static + Narrator,
+{
+    if server.battle().entities().teams().count() == 0 {
+        CreateTeam::trigger(server, GLOBAL_TEAM_ID).fire()?;
+        log::debug!("created global team");
+    }
+    Ok(())
 }

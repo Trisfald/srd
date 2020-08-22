@@ -13,7 +13,7 @@ pub struct SRDSpaceRules<N: Narrator> {
 
 impl<N: Narrator> SRDSpaceRules<N> {
     /// Creates a new instance.
-    pub fn new(narrator: Arc<N>) -> Self {
+    pub(crate) fn new(narrator: Arc<N>) -> Self {
         Self { narrator }
     }
 }
