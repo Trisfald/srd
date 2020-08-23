@@ -7,19 +7,19 @@ use std::sync::Arc;
 use weasel::{Actor, ActorRules, BattleState, Entropy, EventQueue, WeaselResult, WriteMetrics};
 
 /// Rules to manage abilities that can be activated and any action a character can take.
-pub struct SRDActorRules<N: Narrator> {
+pub struct SRDActorRules {
     #[allow(dead_code)] // TODO remove
-    narrator: Arc<N>,
+    narrator: Arc<dyn Narrator>,
 }
 
-impl<'a, N: Narrator> SRDActorRules<N> {
+impl SRDActorRules {
     /// Creates a new instance.
-    pub(crate) fn new(narrator: Arc<N>) -> Self {
+    pub(crate) fn new(narrator: Arc<dyn Narrator>) -> Self {
         Self { narrator }
     }
 }
 
-impl<N: Narrator> ActorRules<SRDRules<N>> for SRDActorRules<N> {
+impl ActorRules<SRDRules> for SRDActorRules {
     type Ability = Action;
     type AbilitiesSeed = ActionsSeed;
     type Activation = (); // TODO use a real type
@@ -28,37 +28,37 @@ impl<N: Narrator> ActorRules<SRDRules<N>> for SRDActorRules<N> {
     fn generate_abilities(
         &self,
         _seed: &Option<Self::AbilitiesSeed>,
-        _entropy: &mut Entropy<SRDRules<N>>,
-        _metrics: &mut WriteMetrics<SRDRules<N>>,
+        _entropy: &mut Entropy<SRDRules>,
+        _metrics: &mut WriteMetrics<SRDRules>,
     ) -> Box<dyn Iterator<Item = Self::Ability>> {
         unimplemented!()
     }
 
     fn activable(
         &self,
-        _state: &BattleState<SRDRules<N>>,
-        _action: weasel::Action<SRDRules<N>>,
-    ) -> WeaselResult<(), SRDRules<N>> {
+        _state: &BattleState<SRDRules>,
+        _action: weasel::Action<SRDRules>,
+    ) -> WeaselResult<(), SRDRules> {
         unimplemented!()
     }
 
     fn activate(
         &self,
-        _state: &BattleState<SRDRules<N>>,
-        _action: weasel::Action<SRDRules<N>>,
-        _event_queue: &mut Option<EventQueue<SRDRules<N>>>,
-        _entropy: &mut Entropy<SRDRules<N>>,
-        _metrics: &mut WriteMetrics<SRDRules<N>>,
+        _state: &BattleState<SRDRules>,
+        _action: weasel::Action<SRDRules>,
+        _event_queue: &mut Option<EventQueue<SRDRules>>,
+        _entropy: &mut Entropy<SRDRules>,
+        _metrics: &mut WriteMetrics<SRDRules>,
     ) {
         unimplemented!()
     }
 
     fn alter_abilities(
         &self,
-        _actor: &mut dyn Actor<SRDRules<N>>,
+        _actor: &mut dyn Actor<SRDRules>,
         _alteration: &Self::AbilitiesAlteration,
-        _entropy: &mut Entropy<SRDRules<N>>,
-        _metrics: &mut WriteMetrics<SRDRules<N>>,
+        _entropy: &mut Entropy<SRDRules>,
+        _metrics: &mut WriteMetrics<SRDRules>,
     ) {
         unimplemented!()
     }

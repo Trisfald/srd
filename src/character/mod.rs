@@ -15,7 +15,6 @@ use self::spawn::CharacterSpawner;
 use crate::ability::{AbilityId, AbilityScore};
 use crate::error::SRDResult;
 use crate::proficiency::Proficiency;
-use crate::rules::narrator::Narrator;
 use crate::rules::SRDRules;
 use crate::skill::SkillId;
 use serde::{Deserialize, Serialize};
@@ -119,10 +118,7 @@ impl Character {
     /// # Errors
     ///
     /// An error is returned if the character is invalid.
-    pub fn spawn<P, N>(&self, server: &mut Server<SRDRules<N>>) -> SRDResult<()>
-    where
-        N: 'static + Narrator,
-    {
+    pub fn spawn<P>(&self, server: &mut Server<SRDRules>) -> SRDResult<()> {
         CharacterSpawner::new(&self).spawn(server)
     }
 }

@@ -6,29 +6,29 @@ use std::sync::Arc;
 use weasel::{BattleState, Entropy, EventQueue, FightRules, WriteMetrics};
 
 /// Rules to manage combat and damage.
-pub struct SRDFightRules<N: Narrator> {
+pub struct SRDFightRules {
     #[allow(dead_code)] // TODO remove
-    narrator: Arc<N>,
+    narrator: Arc<dyn Narrator>,
 }
 
-impl<N: Narrator> SRDFightRules<N> {
+impl SRDFightRules {
     /// Creates a new instance.
-    pub(crate) fn new(narrator: Arc<N>) -> Self {
+    pub(crate) fn new(narrator: Arc<dyn Narrator>) -> Self {
         Self { narrator }
     }
 }
 
-impl<N: Narrator> FightRules<SRDRules<N>> for SRDFightRules<N> {
+impl FightRules<SRDRules> for SRDFightRules {
     type Impact = (); // TODO use a real type
     type Potency = (); // TODO not sure if we need this
 
     fn apply_impact(
         &self,
-        _state: &BattleState<SRDRules<N>>,
+        _state: &BattleState<SRDRules>,
         _impact: &Self::Impact,
-        _event_queue: &mut Option<EventQueue<SRDRules<N>>>,
-        _entropy: &mut Entropy<SRDRules<N>>,
-        _metrics: &mut WriteMetrics<SRDRules<N>>,
+        _event_queue: &mut Option<EventQueue<SRDRules>>,
+        _entropy: &mut Entropy<SRDRules>,
+        _metrics: &mut WriteMetrics<SRDRules>,
     ) {
         unimplemented!()
     }

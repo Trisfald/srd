@@ -1,6 +1,5 @@
 //! Handles errors.
 
-use crate::rules::narrator::Narrator;
 use crate::rules::SRDRules;
 use std::error;
 use std::result::Result;
@@ -24,7 +23,7 @@ pub enum SRDError {
     /// Incorrect enum variant.
     IncorrectVariant,
     /// Wrapper for a weasel error.
-    WeaselError(Box<dyn error::Error>),
+    WeaselError(WeaselErrorType<SRDRules>),
 }
 
 impl Display for SRDError {
@@ -49,11 +48,8 @@ impl error::Error for SRDError {
     }
 }
 
-impl<N> From<WeaselErrorType<SRDRules<N>>> for SRDError
-where
-    N: 'static + Narrator,
-{
-    fn from(err: WeaselErrorType<SRDRules<N>>) -> SRDError {
-        SRDError::WeaselError(Box::new(err))
+impl From<WeaselErrorType<SRDRules>> for SRDError {
+    fn from(err: WeaselErrorType<SRDRules>) -> SRDError {
+        SRDError::WeaselError(err)
     }
 }

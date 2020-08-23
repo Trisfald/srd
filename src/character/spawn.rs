@@ -4,7 +4,6 @@ use crate::character::Character;
 use crate::error::SRDResult;
 use crate::rules::core::action::ActionsSeed;
 use crate::rules::core::statistic::StatisticsSeed;
-use crate::rules::narrator::Narrator;
 use crate::rules::team_rules::{create_global_team, GLOBAL_TEAM_ID};
 use crate::rules::SRDRules;
 use weasel::{CreateCreature, EventTrigger, Server};
@@ -16,10 +15,7 @@ pub(crate) struct CharacterSpawner<'a> {
 }
 
 impl CharacterSpawner<'_> {
-    pub(crate) fn spawn<N>(&self, server: &mut Server<SRDRules<N>>) -> SRDResult<()>
-    where
-        N: 'static + Narrator,
-    {
+    pub(crate) fn spawn(&self, server: &mut Server<SRDRules>) -> SRDResult<()> {
         log::info!("spawning character {:?}", self.character.id());
         let statistics = self.build_statistics();
         let actions = self.build_actions();

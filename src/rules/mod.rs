@@ -31,23 +31,22 @@ use weasel::rules::{empty::EmptyUserRules, entropy::UniformDistribution};
 use weasel::BattleRules;
 
 /// weasel compatible battle rules implementing the Systems Reference Document (SRD).
-pub struct SRDRules<N: Narrator> {
-    narrator: Arc<N>,
-    team_rules: SRDTeamRules<N>,
-    character_rules: SRDCharacterRules<N>,
-    actor_rules: SRDActorRules<N>,
-    fight_rules: SRDFightRules<N>,
+pub struct SRDRules {
+    narrator: Arc<dyn Narrator>,
+    team_rules: SRDTeamRules,
+    character_rules: SRDCharacterRules,
+    actor_rules: SRDActorRules,
+    fight_rules: SRDFightRules,
     user_rules: EmptyUserRules,
-    space_rules: Option<SRDSpaceRules<N>>,
-    rounds_rules: Option<SRDRoundsRules<N>>,
+    space_rules: Option<SRDSpaceRules>,
+    rounds_rules: Option<SRDRoundsRules>,
     entropy_rules: UniformDistribution<u8>,
     version: SRDRulesVersion,
 }
 
-impl<N: Narrator> SRDRules<N> {
+impl SRDRules {
     /// Creates a new instance of these rules.
-    pub fn new(narrator: N) -> Self {
-        let narrator = Arc::new(narrator);
+    pub fn new(narrator: Arc<dyn Narrator>) -> Self {
         let instance = Self {
             narrator: narrator.clone(),
             team_rules: SRDTeamRules::new(narrator.clone()),
@@ -65,25 +64,19 @@ impl<N: Narrator> SRDRules<N> {
     }
 
     /// Returns the narrator of the battle.
-    pub fn narrator(&self) -> &N {
-        &self.narrator
+    pub fn narrator(&self) -> &dyn Narrator {
+        &*self.narrator
     }
 }
 
-impl<N: Narrator + Default> Default for SRDRules<N> {
-    fn default() -> Self {
-        Self::new(N::default())
-    }
-}
-
-impl<N: Narrator> BattleRules for SRDRules<N> {
-    type TR = SRDTeamRules<N>;
-    type CR = SRDCharacterRules<N>;
-    type AR = SRDActorRules<N>;
-    type FR = SRDFightRules<N>;
+impl BattleRules for SRDRules {
+    type TR = SRDTeamRules;
+    type CR = SRDCharacterRules;
+    type AR = SRDActorRules;
+    type FR = SRDFightRules;
     type UR = EmptyUserRules;
-    type SR = SRDSpaceRules<N>;
-    type RR = SRDRoundsRules<N>;
+    type SR = SRDSpaceRules;
+    type RR = SRDRoundsRules;
     // Uniform distribution of random numbers to roll from a d4 up to a d100.
     type ER = UniformDistribution<u8>;
     type Version = SRDRulesVersion;
