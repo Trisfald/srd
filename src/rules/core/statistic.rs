@@ -1,11 +1,25 @@
 //! Statistics of creatures.
 
 use crate::ability::{AbilityId, AbilityScore};
+use crate::character::{class::ClassId, level::Level, race::RaceId};
 use crate::hit_points::HitPoints;
 use crate::proficiency::{Proficiency, ProficiencyBonus};
 use crate::skill::SkillId;
 use serde::{Deserialize, Serialize};
 use std::fmt;
+
+macro_rules! accessor {
+    ($name:ident, $variant:ident, $type:ident) => {
+        /// Returns a reference to `$type` if this statistic is of the correct type, otherwise `None`.
+        pub fn $name(&self) -> Option<&$type> {
+            if let StatisticValue::$variant(value) = &self.value {
+                Some(value)
+            } else {
+                None
+            }
+        }
+    };
+}
 
 /// A statistic represents a specific property of a creature.\
 /// Statistics are identified by an id and can contain different kinds of values.
@@ -20,41 +34,19 @@ impl Statistic {
         Self { id, value }
     }
 
-    /// Returns a reference to `HitPoints` if this statistic is of the correct type, otherwise `None`.
-    pub fn hit_points(&self) -> Option<&HitPoints> {
-        if let StatisticValue::HitPoints(value) = &self.value {
-            Some(value)
-        } else {
-            None
-        }
-    }
+    accessor! {race, Race, RaceId}
 
-    /// Returns `AbilityScore` if this statistic is of the correct type, otherwise `None`.
-    pub fn ability(&self) -> Option<&AbilityScore> {
-        if let StatisticValue::Ability(value) = &self.value {
-            Some(value)
-        } else {
-            None
-        }
-    }
+    accessor! {class, Class, ClassId}
 
-    /// Returns a reference to `Proficiency` if this statistic is of the correct type, otherwise `None`.
-    pub fn skill(&self) -> Option<&Proficiency> {
-        if let StatisticValue::Skill(value) = &self.value {
-            Some(value)
-        } else {
-            None
-        }
-    }
+    accessor! {level, Level, Level}
 
-    /// Returns a reference to `ProficiencyBonus` if this statistic is of the correct type, otherwise `None`.
-    pub fn proficiency_bonus(&self) -> Option<&ProficiencyBonus> {
-        if let StatisticValue::ProficiencyBonus(value) = &self.value {
-            Some(value)
-        } else {
-            None
-        }
-    }
+    accessor! {hit_points, HitPoints, HitPoints}
+
+    accessor! {ability, Ability, AbilityScore}
+
+    accessor! {skill, Skill, Proficiency}
+
+    accessor! {proficiency_bonus, ProficiencyBonus, ProficiencyBonus}
 
     /// Applies a change on this statistic. The change will have an effect only if its
     /// type matches the statistic's one.
@@ -68,6 +60,9 @@ impl From<StatisticInitializer> for Statistic {
     fn from(item: StatisticInitializer) -> Self {
         use StatisticInitializer::*;
         match item {
+            Race(value) => Statistic::new(StatisticId::Race, StatisticValue::Race(value)),
+            Class(value) => Statistic::new(StatisticId::Class, StatisticValue::Class(value)),
+            Level(value) => Statistic::new(StatisticId::Level, StatisticValue::Level(value)),
             HitPoints(value) => {
                 Statistic::new(StatisticId::HitPoints, StatisticValue::HitPoints(value))
             }
@@ -97,6 +92,9 @@ impl weasel::Id for Statistic {
 #[derive(Debug, Clone, Copy, PartialEq, Hash, Eq, Serialize, Deserialize)]
 #[allow(missing_docs)]
 pub enum StatisticId {
+    Race,
+    Class,
+    Level,
     HitPoints,
     Ability(AbilityId),
     Skill(SkillId),
@@ -106,6 +104,9 @@ pub enum StatisticId {
 /// Encapsulates the actual value of a statistic.
 #[derive(Debug, Clone)]
 enum StatisticValue {
+    Race(RaceId),
+    Class(ClassId),
+    Level(Level),
     HitPoints(HitPoints),
     Ability(AbilityScore),
     Skill(Proficiency),
@@ -152,6 +153,9 @@ impl fmt::Display for StatisticValue {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         use StatisticValue::*;
         match self {
+            Race(_) => write!(f, "Race"),
+            Class(_) => write!(f, "Class"),
+            Level(_) => write!(f, "Level"),
             HitPoints(_) => write!(f, "HitPoints"),
             Ability(_) => write!(f, "Ability"),
             Skill(_) => write!(f, "Skill"),
@@ -161,9 +165,12 @@ impl fmt::Display for StatisticValue {
 }
 
 /// Initializer to create a statistic.
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[allow(missing_docs)]
 pub enum StatisticInitializer {
+    Race(RaceId),
+    Class(ClassId),
+    Level(Level),
     HitPoints(HitPoints),
     Ability(AbilityId, AbilityScore),
     Skill(SkillId, Proficiency),
