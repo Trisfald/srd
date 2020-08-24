@@ -68,6 +68,9 @@ const ABILITY_SCORE_MIN: u8 = 1;
 /// Maximum ability score.
 const ABILITY_SCORE_MAX: u8 = 30;
 
+/// Default ability score (value is 10).
+pub(crate) static DEFAULT_ABILITY_SCORE: AbilityScore = AbilityScore{value: 10};  
+
 /// The numeric value of an ability.
 ///
 /// # Reference

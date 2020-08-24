@@ -47,9 +47,18 @@ impl PackageVersion {
     }
 }
 
+/// Returns true if `values` is between `min` and `max` (inclusive).
 pub(crate) fn is_value_valid<T: PartialOrd>(value: T, min: T, max: T) -> bool {
     assert!(min <= max);
     value >= min && value <= max
+}
+
+/// Instantiates a simple server with SRD rules and compendium.
+pub(crate) fn simple_server() -> Server<SRDRules> {
+    
+    let rules = SRDRules::new();
+    let battle = Battle::builder(rules).build();
+    Server::builder(battle).build()
 }
 
 #[cfg(test)]

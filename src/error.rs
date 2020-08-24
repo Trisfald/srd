@@ -1,5 +1,6 @@
 //! Handles errors.
 
+use crate::character::class::ClassId;
 use crate::rules::SRDRules;
 use std::error;
 use std::result::Result;
@@ -20,8 +21,8 @@ pub enum SRDError {
     InvalidAbilityScore(u8),
     /// Invalid character level.
     InvalidLevel(u8),
-    /// Incorrect enum variant.
-    IncorrectVariant,
+    /// Non existing class.
+    ClassNotFound(ClassId),
     /// Wrapper for a weasel error.
     WeaselError(WeaselErrorType<SRDRules>),
 }
@@ -37,6 +38,9 @@ impl Display for SRDError {
             }
             InvalidLevel(value) => write!(f, "the value {:?} is not a valid level", value),
             IncorrectVariant => write!(f, "enum has a different variant than expected"),
+            ClassNotFound(class) => {
+                write!(f, "the class {:?} doesn't exist in the compendium", class)
+            }
             WeaselError(err) => write!(f, "WeaselError {{{}}}", err),
         }
     }

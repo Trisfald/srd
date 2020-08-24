@@ -34,13 +34,13 @@ pub trait ClassModel {
     }
 
     /// Returns the proficiency bonus at the given level.
-    fn proficiency_bonus(&self, level: Level) -> ProficiencyBonus {
+    fn proficiency_bonus(&self, level: &Level) -> ProficiencyBonus {
         proficiency_bonus_at_level(level)
     }
 }
 
 /// Returns the standard proficiency bonus at the given level.
-fn proficiency_bonus_at_level(level: Level) -> ProficiencyBonus {
+fn proficiency_bonus_at_level(level: &Level) -> ProficiencyBonus {
     ((level.value() - 1) / 4 + 2).into()
 }
 
@@ -51,10 +51,10 @@ mod tests {
     #[test]
     fn standard_proficiency_bonus() {
         macro_rules! test_case {
-            ($( $lvl:expr, $expected:expr ),* $(,)?) => {
-                $(
-                    assert_eq!(proficiency_bonus_at_level(Level::new($lvl).unwrap()), $expected.into());
-                )*
+            ($lvl:expr, $expected:expr ) => {
+                
+                    assert_eq!(proficiency_bonus_at_level(&Level::new($lvl).unwrap()), $expected.into());
+                
             }
         }
         test_case!(1, 2);
