@@ -46,16 +46,16 @@ impl CharacterSpawner<'_> {
         use StatisticInitializer::*;
         seed.statistics.push(Race(self.character.race().clone()));
         seed.statistics.push(Class(self.character.class().clone()));
-        seed.statistics.push(Level(self.character.level().clone()));
+        seed.statistics.push(Level(*self.character.level()));
         let class = self.character.class();
         let class_model = compendium()
             .class_model(class)
-            .ok_or(SRDError::ClassNotFound(class.clone()))?;
+            .ok_or_else(|| SRDError::ClassNotFound(class.clone()))?;
         seed.statistics.push(ProficiencyBonus(
             class_model.proficiency_bonus(self.character.level()),
         ));
         seed.statistics
-            .push(HitPoints(self.character.hit_points().clone()));
+            .push(HitPoints(*self.character.hit_points()));
         Ok(())
     }
 

@@ -24,9 +24,7 @@ impl SpaceRules<SRDRules> for SRDSpaceRules {
     type SpaceAlteration = (); // TODO use a real type
     type SpaceModel = (); // TODO use a real type
 
-    fn generate_model(&self, _: &Option<Self::SpaceSeed>) -> Self::SpaceModel {
-        ()
-    }
+    fn generate_model(&self, _: &Option<Self::SpaceSeed>) -> Self::SpaceModel {}
 
     fn check_move(
         &self,

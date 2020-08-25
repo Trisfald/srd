@@ -2,8 +2,8 @@
 
 use crate::ability::{AbilityId, AbilityScore};
 use crate::character::{class::ClassId, level::Level, race::RaceId};
-use crate::hit_points::HitPoints;
 use crate::error::{SRDError, SRDResult};
+use crate::hit_points::HitPoints;
 use crate::proficiency::{Proficiency, ProficiencyBonus};
 use crate::skill::SkillId;
 use serde::{Deserialize, Serialize};

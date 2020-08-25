@@ -22,9 +22,7 @@ impl RoundsRules<SRDRules> for SRDRoundsRules {
     type RoundsSeed = (); // TODO use a real type
     type RoundsModel = (); // TODO use a real type
 
-    fn generate_model(&self, _: &Option<Self::RoundsSeed>) -> Self::RoundsModel {
-        ()
-    }
+    fn generate_model(&self, _: &Option<Self::RoundsSeed>) -> Self::RoundsModel {}
 
     fn eligible(&self, _model: &Self::RoundsModel, _actor: &dyn Actor<SRDRules>) -> bool {
         unimplemented!()

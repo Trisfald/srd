@@ -154,10 +154,8 @@ where
 /// ```
 /// use srd::{compendium, init_srd_compendium};
 ///
-/// fn main() {
-///     init_srd_compendium().unwrap();
-///     assert_eq!(compendium().abilities().count(), srd::ability::RESERVED_ABILITIES.into());
-/// }
+/// init_srd_compendium().unwrap();
+/// assert_eq!(compendium().abilities().count(), srd::ability::RESERVED_ABILITIES.into());
 /// ```
 pub fn init_srd_compendium() -> SRDResult<()> {
     set_boxed_compendium(Box::new(StandardCompendium::with_srd()))

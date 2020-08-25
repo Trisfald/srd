@@ -67,7 +67,7 @@ impl Character {
         let class = class.into();
         let class_model = compendium()
             .class_model(&class)
-            .ok_or(SRDError::ClassNotFound(class.clone()))?;
+            .ok_or_else(|| SRDError::ClassNotFound(class.clone()))?;
         let mut instance = Self {
             id: id.into(),
             race: race.into(),
