@@ -21,6 +21,8 @@ pub enum SRDError {
     InvalidAbilityScore(u8),
     /// Invalid character level.
     InvalidLevel(u8),
+    /// Incorrect enum variant.
+    IncorrectVariant,
     /// Non existing class.
     ClassNotFound(ClassId),
     /// Wrapper for a weasel error.

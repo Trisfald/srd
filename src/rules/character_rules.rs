@@ -32,11 +32,17 @@ impl CharacterRules<SRDRules> for SRDCharacterRules {
 
     fn generate_statistics(
         &self,
-        _seed: &Option<Self::StatisticsSeed>,
+        seed: &Option<Self::StatisticsSeed>,
         _entropy: &mut Entropy<SRDRules>,
         _metrics: &mut WriteMetrics<SRDRules>,
     ) -> Box<dyn Iterator<Item = Self::Statistic>> {
-        unimplemented!()
+        if let Some(seed) = seed {
+            // Generate a statistic out of each single StatisticInitializer.
+            Box::new(seed.statistics.clone().into_iter().map(|e| e.into()))
+        } else {
+            log::warn!("generating an empty set of statistics for a weasel::character");
+            Box::new(std::iter::empty())
+        }
     }
 
     fn alter_statistics(

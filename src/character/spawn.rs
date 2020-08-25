@@ -30,7 +30,7 @@ impl CharacterSpawner<'_> {
             .statistics_seed(statistics)
             .abilities_seed(actions)
             .fire()?;
-        log::info!("spawned character {:?}", self.character.id());            
+        log::info!("spawned character {:?}", self.character.id());
         Ok(())
     }
 
@@ -61,13 +61,15 @@ impl CharacterSpawner<'_> {
 
     fn add_abilities(&self, seed: &mut StatisticsSeed) {
         for (id, score) in self.character.abilities() {
-            seed.statistics.push(StatisticInitializer::Ability(*id, *score));
+            seed.statistics
+                .push(StatisticInitializer::Ability(*id, *score));
         }
     }
 
     fn add_skills(&self, seed: &mut StatisticsSeed) {
         for (id, proficiency) in self.character.skills() {
-            seed.statistics.push(StatisticInitializer::Skill(*id, *proficiency));
+            seed.statistics
+                .push(StatisticInitializer::Skill(*id, *proficiency));
         }
     }
 
@@ -86,25 +88,83 @@ impl CharacterSpawner<'_> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use crate::ability::RESERVED_ABILITIES;
+    use crate::ability::{AbilityScore, DEFAULT_ABILITY_SCORE, DEXTERITY, STRENGTH};
     use crate::character::class::fighter::FIGHTER;
     use crate::character::race::hill_dwarf::HILL_DWARF;
-    use crate::ability::{AbilityScore, STRENGTH};
+    use crate::character::CharacterId;
+    use crate::proficiency::{Proficiency, DEFAULT_PROFICIENCY};
+    use crate::rules::core::action::ActionId;
+    use crate::rules::core::statistic::StatisticId;
+    use crate::skill::{ACROBATICS, RESERVED_SKILLS, STEALTH};
+    use crate::util::simple_server;
+    use weasel::{Actor, BattleController, Character};
 
     #[test]
     fn character_has_correct_statistics() {
-        // Spawn a character with one ability.
-        let mut c = Character::new("one", HILL_DWARF, FIGHTER).unwrap();
-        c.add_ability(STRENGTH, AbilityScore::new(12).unwrap());
+        let strength = 12;
+        let id: CharacterId = "one".into();
+        let mut server = simple_server();
+
+        // Spawn a character with one non default ability and skill.
+        crate::Character::new(id.clone(), HILL_DWARF, FIGHTER)
+            .unwrap()
+            .add_ability(STRENGTH, AbilityScore::new(strength).unwrap())
+            .add_skill(ACROBATICS, Proficiency(true))
+            .spawn(&mut server)
+            .unwrap();
         // The creature should have the ability we set and everything else defaulted.
-        // TODO
+        let creature = server.battle().entities().creature(&id).unwrap();
+        let expected_statistics: usize = (RESERVED_ABILITIES + RESERVED_SKILLS + 5).into();
+        assert_eq!(creature.statistics().count(), expected_statistics);
+        assert_eq!(
+            *creature
+                .statistic(&StatisticId::Ability(STRENGTH))
+                .unwrap()
+                .ability()
+                .unwrap(),
+            AbilityScore::capped(strength)
+        );
+        assert_eq!(
+            *creature
+                .statistic(&StatisticId::Ability(DEXTERITY))
+                .unwrap()
+                .ability()
+                .unwrap(),
+            DEFAULT_ABILITY_SCORE
+        );
+        // The creature should have the skill we set and everything else defaulted.
+        assert_eq!(
+            *creature
+                .statistic(&StatisticId::Skill(ACROBATICS))
+                .unwrap()
+                .skill()
+                .unwrap(),
+            Proficiency(true)
+        );
+        assert_eq!(
+            *creature
+                .statistic(&StatisticId::Skill(STEALTH))
+                .unwrap()
+                .skill()
+                .unwrap(),
+            DEFAULT_PROFICIENCY
+        );
     }
 
     #[test]
     fn character_has_default_actions() {
+        let id: CharacterId = "one".into();
+        let mut server = simple_server();
+
         // Spawn a character.
-        let c = Character::new("one", HILL_DWARF, FIGHTER);
+        crate::Character::new(id.clone(), HILL_DWARF, FIGHTER)
+            .unwrap()
+            .spawn(&mut server)
+            .unwrap();
         // The creature should have all default actions.
-        // TODO
+        let creature = server.battle().entities().creature(&id).unwrap();
+        assert!(creature.ability(&ActionId::Movement).is_some());
+        assert!(creature.ability(&ActionId::Attack).is_some());
     }
 }

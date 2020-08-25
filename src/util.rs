@@ -1,9 +1,12 @@
 //! Utility functions.
 
+use crate::compendium::init_srd_compendium;
 use crate::constants::{VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH};
 use crate::error::SRDResult;
+use crate::rules::narrator::NopNarrator;
+use crate::rules::SRDRules;
 use serde::{Deserialize, Serialize};
-use weasel::{EventTrigger, ResetEntropy, Server};
+use weasel::{Battle, EventTrigger, ResetEntropy, Server};
 
 /// Reset the battle pseudo random number generator with a fairly good seed.
 /// The change will be propagated to all clients.\
@@ -17,7 +20,7 @@ pub fn seed_battle_prng(server: &mut Server<SRDRules>) -> SRDResult<u64> {
     let secs = time.as_secs();
     let nanos = (time.subsec_nanos() as u64) << 32;
     let seed = secs + nanos;
-    ResetEntropy::trigger(&mut server).seed(seed).fire()?;
+    ResetEntropy::trigger(server).seed(seed).fire()?;
     Ok(seed)
 }
 
@@ -54,9 +57,10 @@ pub(crate) fn is_value_valid<T: PartialOrd>(value: T, min: T, max: T) -> bool {
 }
 
 /// Instantiates a simple server with SRD rules and compendium.
+#[allow(dead_code)]
 pub(crate) fn simple_server() -> Server<SRDRules> {
-    
-    let rules = SRDRules::new();
+    let _ = init_srd_compendium();
+    let rules = SRDRules::new(std::sync::Arc::new(NopNarrator::default()));
     let battle = Battle::builder(rules).build();
     Server::builder(battle).build()
 }

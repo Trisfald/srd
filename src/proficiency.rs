@@ -13,7 +13,7 @@ impl From<bool> for Proficiency {
 }
 
 /// Default proficiency (value is false).
-pub(crate) static DEFAULT_PROFICIENCY: Proficiency = Proficiency(false);  
+pub(crate) static DEFAULT_PROFICIENCY: Proficiency = Proficiency(false);
 
 /// Proficiency bonus.
 ///

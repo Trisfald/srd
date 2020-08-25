@@ -52,10 +52,11 @@ mod tests {
     fn standard_proficiency_bonus() {
         macro_rules! test_case {
             ($lvl:expr, $expected:expr ) => {
-                
-                    assert_eq!(proficiency_bonus_at_level(&Level::new($lvl).unwrap()), $expected.into());
-                
-            }
+                assert_eq!(
+                    proficiency_bonus_at_level(&Level::new($lvl).unwrap()),
+                    $expected.into()
+                );
+            };
         }
         test_case!(1, 2);
         test_case!(2, 2);

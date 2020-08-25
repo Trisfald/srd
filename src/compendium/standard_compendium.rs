@@ -169,7 +169,7 @@ mod tests {
     use crate::character::class::FIGHTER;
     use crate::character::race::HILL_DWARF;
     use crate::skill::{SkillId, ACROBATICS, RESERVED_SKILLS};
-    use crate::{compendium, set_boxed_compendium, Compendium};
+    use crate::{compendium, init_srd_compendium, Compendium};
     use std::thread;
 
     #[test]
@@ -193,7 +193,7 @@ mod tests {
 
     #[test]
     fn standard_compendium_multithreaded_access() {
-        set_boxed_compendium(Box::new(StandardCompendium::with_srd())).unwrap();
+        let _ = init_srd_compendium();
         let child = thread::spawn(move || {
             assert_eq!(compendium().abilities().count(), RESERVED_ABILITIES.into());
         });

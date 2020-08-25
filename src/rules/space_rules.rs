@@ -25,7 +25,7 @@ impl SpaceRules<SRDRules> for SRDSpaceRules {
     type SpaceModel = (); // TODO use a real type
 
     fn generate_model(&self, _: &Option<Self::SpaceSeed>) -> Self::SpaceModel {
-        unimplemented!()
+        ()
     }
 
     fn check_move(
@@ -34,7 +34,7 @@ impl SpaceRules<SRDRules> for SRDSpaceRules {
         _claim: PositionClaim<SRDRules>,
         _position: &Self::Position,
     ) -> WeaselResult<(), SRDRules> {
-        unimplemented!()
+        Ok(())
     }
 
     fn move_entity(
@@ -44,6 +44,6 @@ impl SpaceRules<SRDRules> for SRDSpaceRules {
         _position: Option<&Self::Position>,
         _metrics: &mut WriteMetrics<SRDRules>,
     ) {
-        unimplemented!()
+        // TODO
     }
 }

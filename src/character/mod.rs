@@ -15,6 +15,7 @@ use self::spawn::CharacterSpawner;
 use crate::ability::{AbilityId, AbilityScore, DEFAULT_ABILITY_SCORE};
 use crate::compendium::compendium;
 use crate::error::{SRDError, SRDResult};
+use crate::handle::creature_handle::CreatureHandle;
 use crate::hit_points::HitPoints;
 use crate::proficiency::{Proficiency, DEFAULT_PROFICIENCY};
 use crate::rules::SRDRules;
@@ -157,8 +158,9 @@ impl Character {
     /// # Errors
     ///
     /// An error is returned if the character is invalid.
-    pub fn spawn<P>(&self, server: &mut Server<SRDRules>) -> SRDResult<()> {
-        CharacterSpawner::new(&self).spawn(server)
+    pub fn spawn(&self, server: &mut Server<SRDRules>) -> SRDResult<CreatureHandle> {
+        CharacterSpawner::new(&self).spawn(server)?;
+        Ok(CreatureHandle {})
     }
 }
 
@@ -180,12 +182,14 @@ impl Hash for Character {
 mod tests {
     use self::class::fighter::FIGHTER;
     use self::race::hill_dwarf::HILL_DWARF;
-    use crate::skill::RESERVED_SKILLS;
-    use crate::ability::RESERVED_ABILITIES;
     use super::*;
+    use crate::ability::RESERVED_ABILITIES;
+    use crate::compendium::init_srd_compendium;
+    use crate::skill::RESERVED_SKILLS;
 
     #[test]
     fn character_equality() {
+        let _ = init_srd_compendium();
         let c1 = Character::new("one", HILL_DWARF, FIGHTER).unwrap();
         let c2 = Character::new("two", HILL_DWARF, FIGHTER).unwrap();
         assert_ne!(c1, c2);
@@ -194,13 +198,14 @@ mod tests {
         assert_eq!(c1, c3);
     }
 
-    #[test] 
+    #[test]
     fn character_has_default_abilities_skills() {
+        let _ = init_srd_compendium();
         let c = Character::new("one", HILL_DWARF, FIGHTER).unwrap();
         assert_eq!(*c.id(), "one".into());
         assert_eq!(*c.race(), HILL_DWARF.into());
         assert_eq!(*c.class(), FIGHTER.into());
         assert_eq!(c.abilities().count(), RESERVED_ABILITIES.into());
         assert_eq!(c.skills().count(), RESERVED_SKILLS.into());
-    } 
+    }
 }

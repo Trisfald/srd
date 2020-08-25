@@ -23,7 +23,7 @@ impl RoundsRules<SRDRules> for SRDRoundsRules {
     type RoundsModel = (); // TODO use a real type
 
     fn generate_model(&self, _: &Option<Self::RoundsSeed>) -> Self::RoundsModel {
-        unimplemented!()
+        ()
     }
 
     fn eligible(&self, _model: &Self::RoundsModel, _actor: &dyn Actor<SRDRules>) -> bool {
@@ -49,7 +49,7 @@ impl RoundsRules<SRDRules> for SRDRoundsRules {
         _entropy: &mut Entropy<SRDRules>,
         _metrics: &mut WriteMetrics<SRDRules>,
     ) {
-        unimplemented!()
+        // TODO
     }
 
     fn on_actor_removed(
