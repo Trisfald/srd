@@ -1,5 +1,6 @@
 //! Actions of creatures.
 
+use crate::error::{SRDError, SRDResult};
 use serde::{Deserialize, Serialize};
 use std::fmt;
 
@@ -17,21 +18,21 @@ impl Action {
         Self { id, value }
     }
 
-    /// Returns a reference to `()` if this action is of the correct type, otherwise `None`.
-    pub fn movement(&self) -> Option<()> {
+    /// Returns a reference to `()` if this action is of the correct type, otherwise an error.
+    pub fn movement(&self) -> SRDResult<()> {
         if let ActionValue::Movement = &self.value {
-            Some(())
+            Ok(())
         } else {
-            None
+            Err(SRDError::IncorrectVariant)
         }
     }
 
-    /// Returns a reference to `()` if this action is of the correct type, otherwise `None`.
-    pub fn attack(&self) -> Option<()> {
+    /// Returns a reference to `()` if this action is of the correct type, otherwise an error.
+    pub fn attack(&self) -> SRDResult<()> {
         if let ActionValue::Attack = &self.value {
-            Some(())
+            Ok(())
         } else {
-            None
+            Err(SRDError::IncorrectVariant)
         }
     }
 }
@@ -101,7 +102,7 @@ mod tests {
     #[test]
     fn create_action() {
         let action: Action = ActionInitializer::Movement.into();
-        assert!(action.movement().is_some());
-        assert!(action.attack().is_none());
+        assert!(action.movement().is_ok());
+        assert!(action.attack().is_err());
     }
 }

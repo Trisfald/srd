@@ -18,6 +18,8 @@ pub enum SRDError {
     InvalidAbilityScore(u8),
     /// Invalid character level.
     InvalidLevel(u8),
+    /// Incorrect enum variant.
+    IncorrectVariant,
 }
 
 impl Display for SRDError {
@@ -30,6 +32,7 @@ impl Display for SRDError {
                 write!(f, "the value {:?} is not valid for an ability score", value)
             }
             InvalidLevel(value) => write!(f, "the value {:?} is not a valid level", value),
+            IncorrectVariant => write!(f, "enum has a different variant than expected"),
         }
     }
 }

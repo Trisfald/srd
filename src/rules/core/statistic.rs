@@ -120,20 +120,22 @@ impl StatisticValue {
         match change {
             StatisticChange::HitPoints(change) => {
                 if let HitPoints(value) = self {
+                    let change_abs = change.abs() as u16;
                     if *change > 0 {
-                        value.add(change.abs() as u16);
+                        value.add(change_abs);
                     } else {
-                        value.subtract(change.abs() as u16);
+                        value.subtract(change_abs);
                     }
                     successful = true;
                 }
             }
             StatisticChange::Ability(_, change) => {
                 if let Ability(value) = self {
+                    let change_abs = change.abs() as u8;
                     if *change > 0 {
-                        value.add(change.abs() as u8);
+                        value.add(change_abs);
                     } else {
-                        value.subtract(change.abs() as u8);
+                        value.subtract(change_abs);
                     }
                     successful = true;
                 }
