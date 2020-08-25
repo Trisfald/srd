@@ -38,7 +38,9 @@ impl CharacterRules<SRDRules> for SRDCharacterRules {
     ) -> Box<dyn Iterator<Item = Self::Statistic>> {
         if let Some(seed) = seed {
             // Generate a statistic out of each single StatisticInitializer.
-            Box::new(seed.statistics.clone().into_iter().map(|e| e.into()))
+            log::trace!("generating {} statistics", seed.statistics.len());
+            let iter = seed.statistics.clone().into_iter().map(|e| e.into());
+            Box::new(iter)
         } else {
             log::warn!("generating an empty set of statistics for a weasel::character");
             Box::new(std::iter::empty())
