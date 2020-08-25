@@ -36,10 +36,6 @@ fn main() {
     print_character_stats(&guy);
     print_character_stats(&dude);
 
-    // for ability in dude.abilities() {
-    //     println!("{:?}", ability);
-    // }
-
     // Fight until only one remains!
     while server.battle().entities().creatures().count() > 1 {
         // Get who acts now.
@@ -58,7 +54,7 @@ fn main() {
 
 fn print_character_stats(_handle: &CreatureHandle) {
     // TODO print name
-    // for ability in guy.abilities() {
+    // for ability in handle.abilities() {
     //     println!("{:?}", ability);
     // }
 }
