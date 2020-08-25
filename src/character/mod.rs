@@ -17,7 +17,7 @@ use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
 
 /// A character unique identifier.
-#[derive(Debug, Clone, PartialEq, Hash, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, Hash, Eq, Serialize, Deserialize)]
 pub struct CharacterId(pub String);
 
 impl From<&str> for CharacterId {
