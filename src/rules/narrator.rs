@@ -6,11 +6,13 @@ pub trait Narrator: Send + Sync {
 }
 
 /// A narrator that does nothing.
+#[derive(Default)]
 pub struct NopNarrator {}
 
 impl Narrator for NopNarrator {}
 
 /// A narrator to debug episodes.
+#[derive(Default)]
 pub struct DebugNarrator {}
 
 impl Narrator for DebugNarrator {}

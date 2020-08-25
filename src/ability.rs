@@ -109,12 +109,16 @@ impl AbilityScore {
     }
 
     /// Adds `value` to the current ability score's value, respecting the bounds.
-    pub fn add_with_cap(&mut self, value: u8) {
-        let new_value = self.value + value;
-        if new_value > ABILITY_SCORE_MAX {
-            self.value = ABILITY_SCORE_MAX;
+    pub fn add(&mut self, value: u8) {
+        self.value = std::cmp::min(self.value + value, ABILITY_SCORE_MAX);
+    }
+
+    /// Subtracts `value` to the current ability score's value, respecting the bounds.
+    pub fn subtract(&mut self, value: u8) {
+        if self.value < value {
+            self.value = ABILITY_SCORE_MIN;
         } else {
-            self.value = new_value;
+            self.value -= value;
         }
     }
 
@@ -172,10 +176,17 @@ mod tests {
     }
 
     #[test]
-    fn ability_score_add_with_cap_respects_bounds() {
+    fn ability_score_add_respects_bounds() {
         let mut ability = AbilityScore::capped(3);
-        ability.add_with_cap(ABILITY_SCORE_MAX);
+        ability.add(ABILITY_SCORE_MAX);
         assert_eq!(ability.value(), ABILITY_SCORE_MAX);
+    }
+
+    #[test]
+    fn ability_score_subtract_respects_bounds() {
+        let mut ability = AbilityScore::capped(3);
+        ability.subtract(ABILITY_SCORE_MAX);
+        assert_eq!(ability.value(), ABILITY_SCORE_MIN);
     }
 
     #[test]

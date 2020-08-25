@@ -28,6 +28,11 @@ impl<T: Default + Copy + Ord> PositiveBoundedValue<T> {
         }
     }
 
+    /// Constructs a new `PositiveBoundedValue` where `value` equals `max`.
+    pub fn from_value(value: T) -> Self {
+        Self::new(value, value)
+    }
+
     /// Returns the current value.
     pub fn value(&self) -> T {
         self.value
