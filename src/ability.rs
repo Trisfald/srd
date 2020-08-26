@@ -68,6 +68,9 @@ const ABILITY_SCORE_MIN: u8 = 1;
 /// Maximum ability score.
 const ABILITY_SCORE_MAX: u8 = 30;
 
+/// Default ability score (value is 10).
+pub(crate) static DEFAULT_ABILITY_SCORE: AbilityScore = AbilityScore { value: 10 };
+
 /// The numeric value of an ability.
 ///
 /// # Reference
@@ -77,7 +80,7 @@ const ABILITY_SCORE_MAX: u8 = 30;
 ///
 /// Each ability also has a modifier, derived from the score and ranging from −5
 /// (for an ability score of 1) to +10 (for a score of 30).
-#[derive(Default, Clone, Copy, Debug, Serialize, Deserialize)]
+#[derive(Default, Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
 pub struct AbilityScore {
     value: u8,
 }

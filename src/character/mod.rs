@@ -9,12 +9,21 @@ pub use self::level::Level;
 pub mod race;
 pub use self::race::{RaceId, RaceModel};
 
-use crate::ability::{AbilityId, AbilityScore};
-use crate::proficiency::Proficiency;
+mod spawn;
+
+use self::spawn::CharacterSpawner;
+use crate::ability::{AbilityId, AbilityScore, DEFAULT_ABILITY_SCORE};
+use crate::compendium::compendium;
+use crate::error::{SRDError, SRDResult};
+use crate::handle::creature_handle::CreatureHandle;
+use crate::hit_points::HitPoints;
+use crate::proficiency::{Proficiency, DEFAULT_PROFICIENCY};
+use crate::rules::SRDRules;
 use crate::skill::SkillId;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
+use weasel::Server;
 
 /// A character unique identifier.
 #[derive(Debug, Clone, PartialEq, PartialOrd, Hash, Eq, Serialize, Deserialize)]
@@ -40,30 +49,52 @@ pub struct Character {
     race: RaceId,
     class: ClassId,
     level: Level,
+    hit_points: HitPoints,
     /// The character's abilities.
-    pub abilities: HashMap<AbilityId, AbilityScore>,
+    abilities: HashMap<AbilityId, AbilityScore>,
     /// The character's proficiency in skills.
-    pub skills: HashMap<SkillId, Proficiency>,
+    skills: HashMap<SkillId, Proficiency>,
 }
 
 impl Character {
     /// Constructs a new `Character`.
-    pub fn new<I, R, C>(id: I, race: R, class: C) -> Self
+    pub fn new<I, R, C>(id: I, race: R, class: C) -> SRDResult<Self>
     where
         I: Into<CharacterId>,
         R: Into<RaceId>,
         C: Into<ClassId>,
     {
-        let instance = Self {
+        let class = class.into();
+        let class_model = compendium()
+            .class_model(&class)
+            .ok_or_else(|| SRDError::ClassNotFound(class.clone()))?;
+        let mut instance = Self {
             id: id.into(),
             race: race.into(),
-            class: class.into(),
+            class,
             level: Level::default(),
+            hit_points: HitPoints::from_value(class_model.hit_points_at_1st_level().into()),
             abilities: HashMap::new(),
             skills: HashMap::new(),
         };
+        Self::add_default_abilities(&mut instance);
+        Self::add_default_skills(&mut instance);
         log::debug!("created character {:?}", instance.id);
-        instance
+        Ok(instance)
+    }
+
+    fn add_default_abilities(character: &mut Self) {
+        log::trace!("adding default abilities to {:?}", character.id);
+        for ability in compendium().abilities() {
+            character.abilities.insert(*ability, DEFAULT_ABILITY_SCORE);
+        }
+    }
+
+    fn add_default_skills(character: &mut Self) {
+        log::trace!("adding default skills to {:?}", character.id);
+        for skill in compendium().skills() {
+            character.skills.insert(*skill, DEFAULT_PROFICIENCY);
+        }
     }
 
     /// Returns the character's id.
@@ -84,6 +115,21 @@ impl Character {
     /// Returns the character's level.
     pub fn level(&self) -> &Level {
         &self.level
+    }
+
+    /// Returns the character's hit points.
+    pub fn hit_points(&self) -> &HitPoints {
+        &self.hit_points
+    }
+
+    /// Returns an iterator over the character's abilities.
+    pub fn abilities(&self) -> impl Iterator<Item = (&AbilityId, &AbilityScore)> {
+        self.abilities.iter()
+    }
+
+    /// Returns an iterator over the character's skill proficiencies.
+    pub fn skills(&self) -> impl Iterator<Item = (&SkillId, &Proficiency)> {
+        self.skills.iter()
     }
 
     /// Adds or replaces one ability.
@@ -112,8 +158,9 @@ impl Character {
     /// # Errors
     ///
     /// An error is returned if the character is invalid.
-    pub fn spawn() {
-        // TODO
+    pub fn spawn(&self, server: &mut Server<SRDRules>) -> SRDResult<CreatureHandle> {
+        CharacterSpawner::new(&self).spawn(server)?;
+        Ok(CreatureHandle {})
     }
 }
 
@@ -136,14 +183,29 @@ mod tests {
     use self::class::fighter::FIGHTER;
     use self::race::hill_dwarf::HILL_DWARF;
     use super::*;
+    use crate::ability::RESERVED_ABILITIES;
+    use crate::compendium::init_srd_compendium;
+    use crate::skill::RESERVED_SKILLS;
 
     #[test]
-    fn equality() {
-        let c1 = Character::new("one", HILL_DWARF, FIGHTER);
-        let c2 = Character::new("two", HILL_DWARF, FIGHTER);
+    fn character_equality() {
+        let _ = init_srd_compendium();
+        let c1 = Character::new("one", HILL_DWARF, FIGHTER).unwrap();
+        let c2 = Character::new("two", HILL_DWARF, FIGHTER).unwrap();
         assert_ne!(c1, c2);
-        let mut c3 = Character::new("one", HILL_DWARF, FIGHTER);
+        let mut c3 = Character::new("one", HILL_DWARF, FIGHTER).unwrap();
         c3.add_skill(1, true);
         assert_eq!(c1, c3);
+    }
+
+    #[test]
+    fn character_has_default_abilities_skills() {
+        let _ = init_srd_compendium();
+        let c = Character::new("one", HILL_DWARF, FIGHTER).unwrap();
+        assert_eq!(*c.id(), "one".into());
+        assert_eq!(*c.race(), HILL_DWARF.into());
+        assert_eq!(*c.class(), FIGHTER.into());
+        assert_eq!(c.abilities().count(), RESERVED_ABILITIES.into());
+        assert_eq!(c.skills().count(), RESERVED_SKILLS.into());
     }
 }

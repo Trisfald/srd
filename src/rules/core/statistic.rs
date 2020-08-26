@@ -2,6 +2,7 @@
 
 use crate::ability::{AbilityId, AbilityScore};
 use crate::character::{class::ClassId, level::Level, race::RaceId};
+use crate::error::{SRDError, SRDResult};
 use crate::hit_points::HitPoints;
 use crate::proficiency::{Proficiency, ProficiencyBonus};
 use crate::skill::SkillId;
@@ -10,12 +11,12 @@ use std::fmt;
 
 macro_rules! accessor {
     ($name:ident, $variant:ident, $type:ident) => {
-        /// Returns a reference to `$type` if this statistic is of the correct type, otherwise `None`.
-        pub fn $name(&self) -> Option<&$type> {
+        /// Returns a reference to `$type` if this statistic is of the correct type, otherwise an error.
+        pub fn $name(&self) -> SRDResult<&$type> {
             if let StatisticValue::$variant(value) = &self.value {
-                Some(value)
+                Ok(value)
             } else {
-                None
+                Err(SRDError::IncorrectVariant)
             }
         }
     };

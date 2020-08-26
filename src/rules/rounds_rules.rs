@@ -6,38 +6,36 @@ use std::sync::Arc;
 use weasel::{Actor, Entities, Entropy, RoundsRules, Space, WriteMetrics};
 
 /// Rules to determine the order of initiative during a battle.
-pub struct SRDRoundsRules<N: Narrator> {
+pub struct SRDRoundsRules {
     #[allow(dead_code)] // TODO remove
-    narrator: Arc<N>,
+    narrator: Arc<dyn Narrator>,
 }
 
-impl<N: Narrator> SRDRoundsRules<N> {
+impl SRDRoundsRules {
     /// Creates a new instance.
-    pub fn new(narrator: Arc<N>) -> Self {
+    pub(crate) fn new(narrator: Arc<dyn Narrator>) -> Self {
         Self { narrator }
     }
 }
 
-impl<N: Narrator> RoundsRules<SRDRules<N>> for SRDRoundsRules<N> {
+impl RoundsRules<SRDRules> for SRDRoundsRules {
     type RoundsSeed = (); // TODO use a real type
     type RoundsModel = (); // TODO use a real type
 
-    fn generate_model(&self, _: &Option<Self::RoundsSeed>) -> Self::RoundsModel {
-        unimplemented!()
-    }
+    fn generate_model(&self, _: &Option<Self::RoundsSeed>) -> Self::RoundsModel {}
 
-    fn eligible(&self, _model: &Self::RoundsModel, _actor: &dyn Actor<SRDRules<N>>) -> bool {
+    fn eligible(&self, _model: &Self::RoundsModel, _actor: &dyn Actor<SRDRules>) -> bool {
         unimplemented!()
     }
 
     fn on_start(
         &self,
-        _entities: &Entities<SRDRules<N>>,
-        _space: &Space<SRDRules<N>>,
+        _entities: &Entities<SRDRules>,
+        _space: &Space<SRDRules>,
         _model: &mut Self::RoundsModel,
-        _actor: &dyn Actor<SRDRules<N>>,
-        _entropy: &mut Entropy<SRDRules<N>>,
-        _metrics: &mut WriteMetrics<SRDRules<N>>,
+        _actor: &dyn Actor<SRDRules>,
+        _entropy: &mut Entropy<SRDRules>,
+        _metrics: &mut WriteMetrics<SRDRules>,
     ) {
         unimplemented!()
     }
@@ -45,19 +43,19 @@ impl<N: Narrator> RoundsRules<SRDRules<N>> for SRDRoundsRules<N> {
     fn on_actor_added(
         &self,
         _model: &mut Self::RoundsModel,
-        _actor: &dyn Actor<SRDRules<N>>,
-        _entropy: &mut Entropy<SRDRules<N>>,
-        _metrics: &mut WriteMetrics<SRDRules<N>>,
+        _actor: &dyn Actor<SRDRules>,
+        _entropy: &mut Entropy<SRDRules>,
+        _metrics: &mut WriteMetrics<SRDRules>,
     ) {
-        unimplemented!()
+        // TODO
     }
 
     fn on_actor_removed(
         &self,
         _model: &mut Self::RoundsModel,
-        _actor: &dyn Actor<SRDRules<N>>,
-        _entropy: &mut Entropy<SRDRules<N>>,
-        _metrics: &mut WriteMetrics<SRDRules<N>>,
+        _actor: &dyn Actor<SRDRules>,
+        _entropy: &mut Entropy<SRDRules>,
+        _metrics: &mut WriteMetrics<SRDRules>,
     ) {
         unimplemented!()
     }

@@ -13,7 +13,9 @@ pub mod character;
 pub use crate::character::Character;
 
 pub mod compendium;
-pub use crate::compendium::{compendium, set_boxed_compendium, set_compendium, Compendium};
+pub use crate::compendium::{
+    compendium, init_srd_compendium, set_boxed_compendium, set_compendium, Compendium,
+};
 
 pub mod constants;
 
@@ -22,6 +24,9 @@ pub use crate::dice::{Dice, DicePool, DiceRoll, DiceRolls, Die};
 
 pub mod error;
 pub use crate::error::{SRDError, SRDResult};
+
+pub mod handle;
+pub use crate::handle::creature_handle::CreatureHandle;
 
 pub mod hit_points;
 pub use crate::hit_points::{HitDice, HitPoints};
@@ -35,6 +40,6 @@ pub use crate::rules::{narrator::Narrator, SRDRules, SRDRulesVersion};
 pub mod skill;
 pub use self::skill::SkillId;
 
-pub(crate) mod util;
+pub mod util;
 
 pub mod value;

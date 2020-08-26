@@ -9,20 +9,19 @@ use weasel::{Character, CharacterRules, Entropy, Transmutation, WriteMetrics};
 
 /// Rules for representing and evolving characters.\
 /// Character in weasel has a broader definition since it includes objects as well.
-#[derive(Default)]
-pub struct SRDCharacterRules<N: Narrator> {
+pub struct SRDCharacterRules {
     #[allow(dead_code)] // TODO remove
-    narrator: Arc<N>,
+    narrator: Arc<dyn Narrator>,
 }
 
-impl<N: Narrator> SRDCharacterRules<N> {
+impl SRDCharacterRules {
     /// Creates a new instance.
-    pub fn new(narrator: Arc<N>) -> Self {
+    pub(crate) fn new(narrator: Arc<dyn Narrator>) -> Self {
         Self { narrator }
     }
 }
 
-impl<N: Narrator> CharacterRules<SRDRules<N>> for SRDCharacterRules<N> {
+impl CharacterRules<SRDRules> for SRDCharacterRules {
     type CreatureId = CharacterId;
     type ObjectId = (); // TODO use a real type
     type Statistic = Statistic;
@@ -33,19 +32,27 @@ impl<N: Narrator> CharacterRules<SRDRules<N>> for SRDCharacterRules<N> {
 
     fn generate_statistics(
         &self,
-        _seed: &Option<Self::StatisticsSeed>,
-        _entropy: &mut Entropy<SRDRules<N>>,
-        _metrics: &mut WriteMetrics<SRDRules<N>>,
+        seed: &Option<Self::StatisticsSeed>,
+        _entropy: &mut Entropy<SRDRules>,
+        _metrics: &mut WriteMetrics<SRDRules>,
     ) -> Box<dyn Iterator<Item = Self::Statistic>> {
-        unimplemented!()
+        if let Some(seed) = seed {
+            // Generate a statistic out of each single StatisticInitializer.
+            log::trace!("generating {} statistics", seed.statistics.len());
+            let iter = seed.statistics.clone().into_iter().map(|e| e.into());
+            Box::new(iter)
+        } else {
+            log::warn!("generating an empty set of statistics for a weasel::character");
+            Box::new(std::iter::empty())
+        }
     }
 
     fn alter_statistics(
         &self,
-        _character: &mut dyn Character<SRDRules<N>>,
+        _character: &mut dyn Character<SRDRules>,
         _alteration: &Self::StatisticsAlteration,
-        _entropy: &mut Entropy<SRDRules<N>>,
-        _metrics: &mut WriteMetrics<SRDRules<N>>,
+        _entropy: &mut Entropy<SRDRules>,
+        _metrics: &mut WriteMetrics<SRDRules>,
     ) -> Option<Transmutation> {
         unimplemented!()
     }
