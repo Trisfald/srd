@@ -137,3 +137,28 @@ pub const SURVIVAL: SkillId = SkillId(16);
 
 /// Number of core skills.
 pub const RESERVED_SKILLS: u8 = 17;
+
+/// Returns a string representation of an `SkillId`.\
+/// The string is accurate only when using the skills defined by the SRD.
+pub fn srd_skill_string(id: SkillId) -> String {
+    match id.0 {
+        0 => "acrobatics".to_string(),
+        1 => "animal handling".to_string(),
+        2 => "arcana".to_string(),
+        3 => "athletics".to_string(),
+        4 => "deception".to_string(),
+        5 => "history".to_string(),
+        6 => "insight".to_string(),
+        7 => "intimidation".to_string(),
+        8 => "medicine".to_string(),
+        9 => "nature".to_string(),
+        10 => "perception".to_string(),
+        11 => "performance".to_string(),
+        12 => "persuasion".to_string(),
+        13 => "religion".to_string(),
+        14 => "slight of hand".to_string(),
+        15 => "stealth".to_string(),
+        16 => "survival".to_string(),
+        _ => id.0.to_string(),
+    }
+}

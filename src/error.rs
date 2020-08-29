@@ -5,6 +5,7 @@ use crate::rules::SRDRules;
 use std::error;
 use std::result::Result;
 use std::{fmt, fmt::Debug, fmt::Display};
+use weasel::character::StatisticId;
 use weasel::error::WeaselErrorType;
 
 /// Alias for a `Result` returning a `SRDError`.
@@ -25,6 +26,8 @@ pub enum SRDError {
     IncorrectVariant,
     /// Non existing class.
     ClassNotFound(ClassId),
+    /// Non existing statistic.
+    StatisticNotFound(StatisticId<SRDRules>),
     /// Wrapper for a weasel error.
     WeaselError(WeaselErrorType<SRDRules>),
 }
@@ -43,6 +46,7 @@ impl Display for SRDError {
             ClassNotFound(class) => {
                 write!(f, "the class {:?} doesn't exist in the compendium", class)
             }
+            StatisticNotFound(id) => write!(f, "statistic with id {:?} not found", id),
             WeaselError(err) => write!(f, "WeaselError {{{}}}", err),
         }
     }

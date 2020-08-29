@@ -62,6 +62,20 @@ pub const CHARISMA: AbilityId = AbilityId(5);
 /// Number of core abilities.
 pub const RESERVED_ABILITIES: u8 = 6;
 
+/// Returns a string representation of an `AbilityId`.\
+/// The string is accurate only when using the abilities defined by the SRD.
+pub fn srd_ability_string(id: AbilityId) -> String {
+    match id.0 {
+        0 => "strength".to_string(),
+        1 => "dexterity".to_string(),
+        2 => "constitution".to_string(),
+        3 => "intelligence".to_string(),
+        4 => "wisdom".to_string(),
+        5 => "charisma".to_string(),
+        _ => id.0.to_string(),
+    }
+}
+
 /// Minimum ability score.
 const ABILITY_SCORE_MIN: u8 = 1;
 
