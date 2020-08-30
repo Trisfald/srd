@@ -66,14 +66,15 @@ pub const RESERVED_ABILITIES: u8 = 6;
 /// The string is accurate only when using the abilities defined by the SRD.
 pub fn srd_ability_string(id: AbilityId) -> String {
     match id.0 {
-        0 => "strength".to_string(),
-        1 => "dexterity".to_string(),
-        2 => "constitution".to_string(),
-        3 => "intelligence".to_string(),
-        4 => "wisdom".to_string(),
-        5 => "charisma".to_string(),
-        _ => id.0.to_string(),
+        0 => "strength",
+        1 => "dexterity",
+        2 => "constitution",
+        3 => "intelligence",
+        4 => "wisdom",
+        5 => "charisma",
+        _ => "not supported",
     }
+    .to_string()
 }
 
 /// Minimum ability score.
