@@ -72,7 +72,7 @@ pub fn srd_ability_string(id: AbilityId) -> String {
         3 => "intelligence",
         4 => "wisdom",
         5 => "charisma",
-        _ => "not supported",
+        _ => unimplemented!("ability id not exiting in the SRD"),
     }
     .to_string()
 }

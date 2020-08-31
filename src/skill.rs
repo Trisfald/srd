@@ -167,7 +167,7 @@ pub fn srd_skill_string(id: SkillId) -> String {
         15 => "sleight of hand",
         16 => "stealth",
         17 => "survival",
-        _ => "not supported",
+        _ => unimplemented!("skill id not exiting in the SRD"),
     }
     .to_string()
 }
