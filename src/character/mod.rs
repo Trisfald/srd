@@ -12,16 +12,17 @@ pub use self::race::{RaceId, RaceModel};
 mod spawn;
 
 use self::spawn::CharacterSpawner;
-use crate::ability::{AbilityId, AbilityScore, DEFAULT_ABILITY_SCORE};
+use crate::ability::{AbilityId, AbilityScore, CONSTITUTION, DEFAULT_ABILITY_SCORE};
 use crate::compendium::compendium;
 use crate::error::{SRDError, SRDResult};
 use crate::handle::creature_handle::CreatureHandleMut;
-use crate::hit_points::HitPoints;
+use crate::hit_points::{HitPoints, HitPointsHistory};
 use crate::proficiency::{Proficiency, DEFAULT_PROFICIENCY};
 use crate::rules::SRDRules;
 use crate::skill::SkillId;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use std::convert::TryInto;
 use std::hash::{Hash, Hasher};
 use weasel::Server;
 
@@ -50,6 +51,7 @@ pub struct Character {
     class: ClassId,
     level: Level,
     hit_points: HitPoints,
+    hit_points_history: HitPointsHistory,
     /// The character's abilities.
     abilities: HashMap<AbilityId, AbilityScore>,
     /// The character's proficiency in skills.
@@ -64,19 +66,29 @@ impl Character {
         R: Into<RaceId>,
         C: Into<ClassId>,
     {
+        // Verify that the necessary models exist.
         let class = class.into();
         let class_model = compendium()
             .class_model(&class)
             .ok_or_else(|| SRDError::ClassNotFound(class.clone()))?;
+        let race = race.into();
+        let _ = compendium()
+            .race_model(&race)
+            .ok_or_else(|| SRDError::RaceNotFound(race.clone()))?;
+        // Constructs an instance of this struct.
+        let mut hit_points_history = HitPointsHistory::default();
+        hit_points_history.add_result(class_model.hit_points_at_1st_level())?;
         let mut instance = Self {
             id: id.into(),
-            race: race.into(),
+            race,
             class,
             level: Level::default(),
-            hit_points: HitPoints::from_value(class_model.hit_points_at_1st_level().into()),
+            hit_points: HitPoints::from_value(hit_points_history.total()),
+            hit_points_history,
             abilities: HashMap::new(),
             skills: HashMap::new(),
         };
+        // Add default abilities and skills.
         Self::add_default_abilities(&mut instance);
         Self::add_default_skills(&mut instance);
         log::debug!("created character {:?}", instance.id);
@@ -88,6 +100,7 @@ impl Character {
         for ability in compendium().abilities() {
             character.abilities.insert(*ability, DEFAULT_ABILITY_SCORE);
         }
+        character.apply_ability_bonuses();
     }
 
     fn add_default_skills(character: &mut Self) {
@@ -122,14 +135,31 @@ impl Character {
         &self.hit_points
     }
 
-    /// Returns an iterator over the character's abilities.
-    pub fn abilities(&self) -> impl Iterator<Item = (&AbilityId, &AbilityScore)> {
-        self.abilities.iter()
+    /// Returns an iterator over the character's base ability scores.
+    pub fn raw_abilities(&self) -> impl Iterator<Item = (AbilityId, AbilityScore)> + '_ {
+        self.abilities.iter().map(|(k, v)| (*k, *v))
+    }
+
+    /// Returns an iterator over the character's ability scores (with bonuses).
+    pub fn abilities(&self) -> impl Iterator<Item = (AbilityId, AbilityScore)> + '_ {
+        let race_model = compendium()
+            .race_model(&self.race)
+            .expect("race model not found");
+        self.raw_abilities().map(move |(ability_id, mut score)| {
+            if let Some((_, bonus)) = race_model
+                .ability_score_increase()
+                .iter()
+                .find(|(bonus_id, _)| *bonus_id == ability_id)
+            {
+                score.add(bonus.value());
+            }
+            (ability_id, score)
+        })
     }
 
     /// Returns an iterator over the character's skill proficiencies.
-    pub fn skills(&self) -> impl Iterator<Item = (&SkillId, &Proficiency)> {
-        self.skills.iter()
+    pub fn skills(&self) -> impl Iterator<Item = (SkillId, Proficiency)> + '_ {
+        self.skills.iter().map(|(k, v)| (*k, *v))
     }
 
     /// Adds or replaces one ability.
@@ -139,6 +169,7 @@ impl Character {
         score: AbilityScore,
     ) -> &mut Self {
         self.abilities.insert(ability.into(), score);
+        self.apply_ability_bonuses();
         self
     }
 
@@ -150,6 +181,26 @@ impl Character {
     {
         self.skills.insert(skill.into(), proficiency.into());
         self
+    }
+
+    /// Applies ability bonuses to the character's statistics.
+    fn apply_ability_bonuses(&mut self) {
+        self.apply_constitution_bonus();
+    }
+
+    fn apply_constitution_bonus(&mut self) {
+        let (_, constitution) = self
+            .abilities()
+            .find(|(id, _)| *id == CONSTITUTION)
+            .expect("character does not have a CONSTITUTION score");
+        // Compute the hit points.
+        let base_hp = i32::from(self.hit_points_history.total());
+        let bonus = self.hit_points_history.count() as i32 * i32::from(constitution.modifier());
+        self.hit_points = HitPoints::from_value(
+            std::cmp::max(base_hp + bonus, 1)
+                .try_into()
+                .expect("hit points > u16"),
+        );
     }
 
     /// Spawns a character in the given battle and returns an handler to it.
@@ -210,5 +261,14 @@ mod tests {
         assert_eq!(*c.class(), FIGHTER.into());
         assert_eq!(c.abilities().count(), RESERVED_ABILITIES.into());
         assert_eq!(c.skills().count(), RESERVED_SKILLS.into());
+    }
+
+    #[test]
+    fn hit_points_calculation() {
+        let _ = init_srd_compendium();
+        let mut c = Character::new("one", HILL_DWARF, FIGHTER).unwrap();
+        assert_eq!(c.hit_points().value(), 11);
+        c.add_ability(CONSTITUTION, AbilityScore::capped(20));
+        assert_eq!(c.hit_points().value(), 16);
     }
 }

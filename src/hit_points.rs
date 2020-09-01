@@ -24,7 +24,7 @@ pub type HitPoints = PositiveBoundedValue<u16>;
 pub type HitDice = Dice;
 
 /// This struct contains the history of all hit points rolls for a particular creature.
-#[derive(Default, Clone, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, Serialize, Deserialize)]
 pub(crate) struct HitPointsHistory {
     results: [u8; LEVEL_MAX as usize],
 }
@@ -42,7 +42,7 @@ impl HitPointsHistory {
     pub(crate) fn total(&self) -> u16 {
         self.results[0..self.count()]
             .iter()
-            .fold(0, |acc, n| acc + *n as u16)
+            .fold(0, |acc, n| acc + u16::from(*n))
     }
 
     /// Adds one hit points roll result.

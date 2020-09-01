@@ -1,6 +1,7 @@
 //! Handles errors.
 
 use crate::character::class::ClassId;
+use crate::character::race::RaceId;
 use crate::rules::SRDRules;
 use std::error;
 use std::result::Result;
@@ -26,6 +27,8 @@ pub enum SRDError {
     IncorrectVariant,
     /// Non existing class.
     ClassNotFound(ClassId),
+    /// Non existing race.
+    RaceNotFound(RaceId),
     /// Non existing statistic.
     StatisticNotFound(StatisticId<SRDRules>),
     /// Max level has been reached.
@@ -50,6 +53,7 @@ impl Display for SRDError {
             ClassNotFound(class) => {
                 write!(f, "the class {:?} doesn't exist in the compendium", class)
             }
+            RaceNotFound(race) => write!(f, "the race {:?} doesn't exist in the compendium", race),
             StatisticNotFound(id) => write!(f, "statistic with id {:?} not found", id),
             MaxLevelReached => write!(f, "the maximum allowed level has been reached"),
             InvalidArgument(s) => write!(f, "invalid argument: {}", s),

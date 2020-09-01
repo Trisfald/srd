@@ -2,6 +2,7 @@
 
 use crate::{SRDError, SRDResult};
 use serde::{Deserialize, Serialize};
+use std::convert::TryInto;
 
 /// Identifies an ability.
 ///
@@ -166,7 +167,9 @@ impl AbilityScore {
     /// To determine an ability modifier without consulting the table, subtract 10 from
     /// the ability score and then divide the total by 2 (round down).
     pub fn modifier(&self) -> i8 {
-        ((self.value as i8 + 10) / 2) - 10
+        (((i16::from(self.value) + 10) / 2) - 10)
+            .try_into()
+            .expect("modifier > i8")
     }
 }
 

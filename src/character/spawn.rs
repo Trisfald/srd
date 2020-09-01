@@ -62,14 +62,14 @@ impl CharacterSpawner<'_> {
     fn add_abilities(&self, seed: &mut StatisticsSeed) {
         for (id, score) in self.character.abilities() {
             seed.statistics
-                .push(StatisticInitializer::Ability(*id, *score));
+                .push(StatisticInitializer::Ability(id, score));
         }
     }
 
     fn add_skills(&self, seed: &mut StatisticsSeed) {
         for (id, proficiency) in self.character.skills() {
             seed.statistics
-                .push(StatisticInitializer::Skill(*id, *proficiency));
+                .push(StatisticInitializer::Skill(id, proficiency));
         }
     }
 
