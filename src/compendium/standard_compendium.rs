@@ -81,6 +81,7 @@ impl StandardCompendium {
             .add_skill(HISTORY, INTELLIGENCE)
             .add_skill(INSIGHT, WISDOM)
             .add_skill(INTIMIDATION, CHARISMA)
+            .add_skill(INVESTIGATION, INTELLIGENCE)
             .add_skill(MEDICINE, WISDOM)
             .add_skill(NATURE, INTELLIGENCE)
             .add_skill(PERCEPTION, WISDOM)

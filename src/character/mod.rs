@@ -15,7 +15,7 @@ use self::spawn::CharacterSpawner;
 use crate::ability::{AbilityId, AbilityScore, DEFAULT_ABILITY_SCORE};
 use crate::compendium::compendium;
 use crate::error::{SRDError, SRDResult};
-use crate::handle::creature_handle::CreatureHandle;
+use crate::handle::creature_handle::CreatureHandleMut;
 use crate::hit_points::HitPoints;
 use crate::proficiency::{Proficiency, DEFAULT_PROFICIENCY};
 use crate::rules::SRDRules;
@@ -158,9 +158,12 @@ impl Character {
     /// # Errors
     ///
     /// An error is returned if the character is invalid.
-    pub fn spawn(&self, server: &mut Server<SRDRules>) -> SRDResult<CreatureHandle> {
+    pub fn spawn<'a>(
+        &'a self,
+        server: &'a mut Server<SRDRules>,
+    ) -> SRDResult<CreatureHandleMut<'a, Server<SRDRules>>> {
         CharacterSpawner::new(&self).spawn(server)?;
-        Ok(CreatureHandle {})
+        Ok(CreatureHandleMut::new(&self.id, server))
     }
 }
 
