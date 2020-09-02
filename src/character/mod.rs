@@ -189,10 +189,21 @@ impl Character {
     }
 
     fn apply_constitution_bonus(&mut self) {
-        let (_, constitution) = self
-            .abilities()
+        let mut constitution = *self
+            .abilities
+            .get(&CONSTITUTION)
+            .expect("characters does not have a CONSTITUTION score");
+        // Add racial bonus to constitution.
+        if let Some(bonus) = compendium()
+            .race_model(&self.race)
+            .expect("race model not found")
+            .ability_score_increase()
+            .iter()
             .find(|(id, _)| *id == CONSTITUTION)
-            .expect("character does not have a CONSTITUTION score");
+            .map(|(_, bonus)| bonus)
+        {
+            constitution.add(bonus.value());
+        }
         // Compute the hit points.
         let base_hp = i32::from(self.hit_points_history.total());
         let bonus = self.hit_points_history.count() as i32 * i32::from(constitution.modifier());
