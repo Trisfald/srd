@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 const LEVEL_MIN: u8 = 1;
 
 /// Maximum level.
-const LEVEL_MAX: u8 = 20;
+pub(crate) const LEVEL_MAX: u8 = 20;
 
 /// Character's level.
 ///

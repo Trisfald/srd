@@ -18,7 +18,7 @@ pub fn seed_battle_prng(server: &mut Server<SRDRules>) -> SRDResult<u64> {
         .duration_since(std::time::SystemTime::UNIX_EPOCH)
         .expect("Duration since UNIX_EPOCH failed");
     let secs = time.as_secs();
-    let nanos = (time.subsec_nanos() as u64) << 32;
+    let nanos = (u64::from(time.subsec_nanos())) << 32;
     let seed = secs + nanos;
     ResetEntropy::trigger(server).seed(seed).fire()?;
     Ok(seed)

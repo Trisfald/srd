@@ -62,14 +62,14 @@ impl CharacterSpawner<'_> {
     fn add_abilities(&self, seed: &mut StatisticsSeed) {
         for (id, score) in self.character.abilities() {
             seed.statistics
-                .push(StatisticInitializer::Ability(*id, *score));
+                .push(StatisticInitializer::Ability(id, score));
         }
     }
 
     fn add_skills(&self, seed: &mut StatisticsSeed) {
         for (id, proficiency) in self.character.skills() {
             seed.statistics
-                .push(StatisticInitializer::Skill(*id, *proficiency));
+                .push(StatisticInitializer::Skill(id, proficiency));
         }
     }
 
@@ -89,7 +89,7 @@ impl CharacterSpawner<'_> {
 #[cfg(test)]
 mod tests {
     use crate::ability::RESERVED_ABILITIES;
-    use crate::ability::{AbilityScore, DEFAULT_ABILITY_SCORE, DEXTERITY, STRENGTH};
+    use crate::ability::{AbilityScore, CONSTITUTION, DEFAULT_ABILITY_SCORE, DEXTERITY, STRENGTH};
     use crate::character::class::fighter::FIGHTER;
     use crate::character::race::hill_dwarf::HILL_DWARF;
     use crate::character::CharacterId;
@@ -101,22 +101,31 @@ mod tests {
     use weasel::{Actor, BattleController, Character};
 
     #[test]
-    fn character_has_correct_statistics() {
+    fn character_has_all_statistics() {
+        let id: CharacterId = "one".into();
+        let mut server = simple_server();
+        crate::Character::new(id.clone(), HILL_DWARF, FIGHTER)
+            .unwrap()
+            .spawn(&mut server)
+            .unwrap();
+        let creature = server.battle().entities().creature(&id).unwrap();
+        let expected_statistics: usize = (RESERVED_ABILITIES + RESERVED_SKILLS + 5).into();
+        assert_eq!(creature.statistics().count(), expected_statistics);
+    }
+
+    #[test]
+    fn character_has_correct_abilities() {
         let strength = 12;
         let id: CharacterId = "one".into();
         let mut server = simple_server();
-
-        // Spawn a character with one non default ability and skill.
+        // Spawn a character with one non default ability.
         crate::Character::new(id.clone(), HILL_DWARF, FIGHTER)
             .unwrap()
             .add_ability(STRENGTH, AbilityScore::new(strength).unwrap())
-            .add_skill(ACROBATICS, Proficiency(true))
             .spawn(&mut server)
             .unwrap();
         // The creature should have the ability we set and everything else defaulted.
         let creature = server.battle().entities().creature(&id).unwrap();
-        let expected_statistics: usize = (RESERVED_ABILITIES + RESERVED_SKILLS + 5).into();
-        assert_eq!(creature.statistics().count(), expected_statistics);
         assert_eq!(
             *creature
                 .statistic(&StatisticId::Ability(STRENGTH))
@@ -133,7 +142,29 @@ mod tests {
                 .unwrap(),
             DEFAULT_ABILITY_SCORE
         );
+        // Racial bonuses should be taken into account.
+        assert_eq!(
+            *creature
+                .statistic(&StatisticId::Ability(CONSTITUTION))
+                .unwrap()
+                .ability()
+                .unwrap(),
+            AbilityScore::capped(DEFAULT_ABILITY_SCORE.value() + 2)
+        );
+    }
+
+    #[test]
+    fn character_has_correct_skills() {
+        let mut server = simple_server();
+        let id: CharacterId = "one".into();
+        // Spawn a character with one non default skill.
+        crate::Character::new(id.clone(), HILL_DWARF, FIGHTER)
+            .unwrap()
+            .add_skill(ACROBATICS, Proficiency(true))
+            .spawn(&mut server)
+            .unwrap();
         // The creature should have the skill we set and everything else defaulted.
+        let creature = server.battle().entities().creature(&id).unwrap();
         assert_eq!(
             *creature
                 .statistic(&StatisticId::Skill(ACROBATICS))
