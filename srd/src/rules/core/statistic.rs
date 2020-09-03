@@ -5,6 +5,7 @@ use crate::character::{class::ClassId, level::Level, race::RaceId};
 use crate::error::{SRDError, SRDResult};
 use crate::hit_points::HitPoints;
 use crate::proficiency::{Proficiency, ProficiencyBonus};
+use crate::rules::core::size::CreatureSize;
 use crate::skill::SkillId;
 use serde::{Deserialize, Serialize};
 use std::fmt::Display;
@@ -43,6 +44,8 @@ impl Statistic {
 
     accessor! {hit_points, HitPoints, HitPoints}
 
+    accessor! {size, Size, CreatureSize}
+
     accessor! {ability, Ability, AbilityScore}
 
     accessor! {skill, Skill, Proficiency}
@@ -65,6 +68,7 @@ impl From<StatisticInitializer> for Statistic {
             Class(value) => Self::new(StatisticId::Class, StatisticValue::Class(value)),
             Level(value) => Self::new(StatisticId::Level, StatisticValue::Level(value)),
             HitPoints(value) => Self::new(StatisticId::HitPoints, StatisticValue::HitPoints(value)),
+            Size(value) => Self::new(StatisticId::Size, StatisticValue::Size(value)),
             Ability(id, value) => {
                 Self::new(StatisticId::Ability(id), StatisticValue::Ability(value))
             }
@@ -93,6 +97,7 @@ pub enum StatisticId {
     Class,
     Level,
     HitPoints,
+    Size,
     Ability(AbilityId),
     Skill(SkillId),
     ProficiencyBonus,
@@ -105,6 +110,7 @@ enum StatisticValue {
     Class(ClassId),
     Level(Level),
     HitPoints(HitPoints),
+    Size(CreatureSize),
     Ability(AbilityScore),
     Skill(Proficiency),
     ProficiencyBonus(ProficiencyBonus),
@@ -156,6 +162,7 @@ pub enum StatisticInitializer {
     Class(ClassId),
     Level(Level),
     HitPoints(HitPoints),
+    Size(CreatureSize),
     Ability(AbilityId, AbilityScore),
     Skill(SkillId, Proficiency),
     ProficiencyBonus(ProficiencyBonus),

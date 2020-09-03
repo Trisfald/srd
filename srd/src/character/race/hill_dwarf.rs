@@ -9,7 +9,8 @@ use crate::character::race::generic_model::GenericRaceModel;
 /// # Reference
 ///
 /// ## Dwarf
-/// **Ability Score Increase.** Your Constitution score increases by 2.
+/// **Ability Score Increase.** Your Constitution score increases by 2.\
+/// **Size.** Your size is medium.
 ///
 /// ## Hill Dwarf
 /// **Ability Score Increase.** Your Wisdom score increases by 1.

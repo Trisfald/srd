@@ -9,6 +9,7 @@ pub mod hill_dwarf;
 pub use self::hill_dwarf::HILL_DWARF;
 
 use crate::ability::{AbilityId, AbilityScore};
+use crate::rules::core::size::CreatureSize;
 use serde::{Deserialize, Serialize};
 
 /// Number of core races.
@@ -28,8 +29,11 @@ impl From<&str> for RaceId {
 
 /// Describes all bonuses and maluses of a race.
 pub trait RaceModel {
-    /// Returns the list of ability score increase.
-    fn ability_score_increase(&self) -> &[(AbilityId, AbilityScore)] {
+    /// Returns the list of ability score increases.
+    fn ability_score_increases(&self) -> &[(AbilityId, AbilityScore)] {
         &[]
     }
+
+    /// Returns the size of creatures of this race.
+    fn size(&self) -> CreatureSize;
 }

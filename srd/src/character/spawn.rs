@@ -44,13 +44,18 @@ impl CharacterSpawner<'_> {
 
     fn add_base_statistics(&self, seed: &mut StatisticsSeed) -> SRDResult<()> {
         use StatisticInitializer::*;
-        seed.statistics.push(Race(self.character.race().clone()));
-        seed.statistics.push(Class(self.character.class().clone()));
-        seed.statistics.push(Level(*self.character.level()));
+        let race = self.character.race();
+        let race_model = compendium()
+            .race_model(race)
+            .ok_or_else(|| SRDError::RaceNotFound(race.clone()))?;
         let class = self.character.class();
         let class_model = compendium()
             .class_model(class)
             .ok_or_else(|| SRDError::ClassNotFound(class.clone()))?;
+        seed.statistics.push(Race(race.clone()));
+        seed.statistics.push(Class(class.clone()));
+        seed.statistics.push(Level(*self.character.level()));
+        seed.statistics.push(Size(race_model.size()));
         seed.statistics.push(ProficiencyBonus(
             class_model.proficiency_bonus(self.character.level()),
         ));
@@ -93,15 +98,18 @@ mod tests {
     use crate::character::class::fighter::FIGHTER;
     use crate::character::race::hill_dwarf::HILL_DWARF;
     use crate::character::CharacterId;
+    use crate::handle::creature_handle::CreatureHandle;
     use crate::proficiency::{Proficiency, DEFAULT_PROFICIENCY};
     use crate::rules::core::action::ActionId;
     use crate::rules::core::statistic::StatisticId;
+    use crate::rules::core::CreatureSize;
     use crate::skill::{ACROBATICS, RESERVED_SKILLS, STEALTH};
     use crate::util::simple_server;
     use weasel::{Actor, BattleController, Character};
 
     #[test]
     fn character_has_all_statistics() {
+        const ESSENTIAL_STATISTICS_COUNT: u8 = 6;
         let id: CharacterId = "one".into();
         let mut server = simple_server();
         crate::Character::new(id.clone(), HILL_DWARF, FIGHTER)
@@ -109,7 +117,8 @@ mod tests {
             .spawn(&mut server)
             .unwrap();
         let creature = server.battle().entities().creature(&id).unwrap();
-        let expected_statistics: usize = (RESERVED_ABILITIES + RESERVED_SKILLS + 5).into();
+        let expected_statistics: usize =
+            (RESERVED_ABILITIES + RESERVED_SKILLS + ESSENTIAL_STATISTICS_COUNT).into();
         assert_eq!(creature.statistics().count(), expected_statistics);
     }
 
@@ -197,5 +206,19 @@ mod tests {
         let creature = server.battle().entities().creature(&id).unwrap();
         assert!(creature.ability(&ActionId::Movement).is_some());
         assert!(creature.ability(&ActionId::Attack).is_some());
+    }
+
+    #[test]
+    fn character_has_size() {
+        let id: CharacterId = "one".into();
+        let mut server = simple_server();
+        crate::Character::new(id.clone(), HILL_DWARF, FIGHTER)
+            .unwrap()
+            .spawn(&mut server)
+            .unwrap();
+        assert_eq!(
+            CreatureHandle::new(&id, &server).size(),
+            Ok(&CreatureSize::Medium)
+        );
     }
 }
