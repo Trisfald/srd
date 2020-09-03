@@ -23,8 +23,8 @@ pub struct Level {
 
 impl Level {
     /// Returns true if the given value is a valid level.
-    pub fn is_value_valid(value: u8) -> bool {
-        crate::util::is_value_valid(value, LEVEL_MIN, LEVEL_MAX)
+    pub const fn is_value_valid(value: u8) -> bool {
+        value >= LEVEL_MIN && value <= LEVEL_MAX
     }
 
     /// Constructs a new `Level` with the given value.
@@ -32,7 +32,7 @@ impl Level {
     /// # Errors
     ///
     /// An error is returned if the provided value is out of bounds.
-    pub fn new(value: u8) -> SRDResult<Self> {
+    pub const fn new(value: u8) -> SRDResult<Self> {
         if Self::is_value_valid(value) {
             Ok(Self { value })
         } else {
@@ -41,7 +41,7 @@ impl Level {
     }
 
     /// Returns the value of this level.
-    pub fn value(&self) -> u8 {
+    pub const fn value(&self) -> u8 {
         self.value
     }
 

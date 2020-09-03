@@ -12,7 +12,7 @@ use std::fmt;
 macro_rules! accessor {
     ($name:ident, $variant:ident, $type:ident) => {
         /// Returns a reference to `$type` if this statistic is of the correct type, otherwise an error.
-        pub fn $name(&self) -> SRDResult<&$type> {
+        pub const fn $name(&self) -> SRDResult<&$type> {
             if let StatisticValue::$variant(value) = &self.value {
                 Ok(value)
             } else {
@@ -31,7 +31,7 @@ pub struct Statistic {
 }
 
 impl Statistic {
-    fn new(id: StatisticId, value: StatisticValue) -> Self {
+    const fn new(id: StatisticId, value: StatisticValue) -> Self {
         Self { id, value }
     }
 
@@ -61,19 +61,15 @@ impl From<StatisticInitializer> for Statistic {
     fn from(item: StatisticInitializer) -> Self {
         use StatisticInitializer::*;
         match item {
-            Race(value) => Statistic::new(StatisticId::Race, StatisticValue::Race(value)),
-            Class(value) => Statistic::new(StatisticId::Class, StatisticValue::Class(value)),
-            Level(value) => Statistic::new(StatisticId::Level, StatisticValue::Level(value)),
-            HitPoints(value) => {
-                Statistic::new(StatisticId::HitPoints, StatisticValue::HitPoints(value))
-            }
+            Race(value) => Self::new(StatisticId::Race, StatisticValue::Race(value)),
+            Class(value) => Self::new(StatisticId::Class, StatisticValue::Class(value)),
+            Level(value) => Self::new(StatisticId::Level, StatisticValue::Level(value)),
+            HitPoints(value) => Self::new(StatisticId::HitPoints, StatisticValue::HitPoints(value)),
             Ability(id, value) => {
-                Statistic::new(StatisticId::Ability(id), StatisticValue::Ability(value))
+                Self::new(StatisticId::Ability(id), StatisticValue::Ability(value))
             }
-            Skill(id, value) => {
-                Statistic::new(StatisticId::Skill(id), StatisticValue::Skill(value))
-            }
-            ProficiencyBonus(value) => Statistic::new(
+            Skill(id, value) => Self::new(StatisticId::Skill(id), StatisticValue::Skill(value)),
+            ProficiencyBonus(value) => Self::new(
                 StatisticId::ProficiencyBonus,
                 StatisticValue::ProficiencyBonus(value),
             ),

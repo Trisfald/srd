@@ -161,6 +161,6 @@ where
     C: BattleController<SRDRules> + EventProcessor<SRDRules>,
 {
     fn from(item: CreatureHandleMut<'a, C>) -> Self {
-        CreatureHandle::new(item.id, item.controller)
+        Self::new(item.id, item.controller)
     }
 }

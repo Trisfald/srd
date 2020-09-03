@@ -69,7 +69,7 @@ impl error::Error for SRDError {
 }
 
 impl From<WeaselErrorType<SRDRules>> for SRDError {
-    fn from(err: WeaselErrorType<SRDRules>) -> SRDError {
-        SRDError::WeaselError(err)
+    fn from(err: WeaselErrorType<SRDRules>) -> Self {
+        Self::WeaselError(err)
     }
 }

@@ -126,7 +126,7 @@ pub struct SRDRulesVersion {
 }
 
 impl SRDRulesVersion {
-    pub(crate) fn new(compendium: u32, package: PackageVersion) -> Self {
+    pub(crate) const fn new(compendium: u32, package: PackageVersion) -> Self {
         SRDRulesVersion {
             compendium,
             package,

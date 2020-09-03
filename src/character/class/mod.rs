@@ -19,7 +19,7 @@ pub struct ClassId(pub String);
 
 impl From<&str> for ClassId {
     fn from(item: &str) -> Self {
-        ClassId(item.to_string())
+        Self(item.to_string())
     }
 }
 
@@ -40,8 +40,8 @@ pub trait ClassModel {
 }
 
 /// Returns the standard proficiency bonus at the given level.
-fn proficiency_bonus_at_level(level: &Level) -> ProficiencyBonus {
-    ((level.value() - 1) / 4 + 2).into()
+const fn proficiency_bonus_at_level(level: &Level) -> ProficiencyBonus {
+    ProficiencyBonus((level.value() - 1) / 4 + 2)
 }
 
 #[cfg(test)]
