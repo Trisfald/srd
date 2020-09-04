@@ -1,0 +1,13 @@
+[package]
+name = "examples"
+version = "0.0.0"
+publish = false
+edition = "2018"
+
+[dev-dependencies]
+srd = { version = "*", path = "../srd" }
+weasel = { version = "0.10", features = ["random", "serialization"] }
+
+[[example]]
+name = "simple_fight"
+path = "simple_fight/main.rs"
