@@ -2,7 +2,7 @@
 
 use crate::error::{SRDError, SRDResult};
 use serde::{Deserialize, Serialize};
-use std::fmt;
+use std::fmt::Display;
 
 /// An action is something that an actor is able to perform.
 /// Most often an action causes a change in the state of one or more objects.\
@@ -64,20 +64,10 @@ pub enum ActionId {
 }
 
 /// Encapsulates the actual value of an actions.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, DisplayVariant)]
 enum ActionValue {
     Movement, // TODO add a meaningful value (ft per turn)
     Attack,   // TODO add a meaningful value (?)
-}
-
-impl fmt::Display for ActionValue {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        use ActionValue::*;
-        match self {
-            Movement => write!(f, "Movement"),
-            Attack => write!(f, "Attack"),
-        }
-    }
 }
 
 /// Initializer to create an action.

@@ -7,7 +7,7 @@ use crate::hit_points::HitPoints;
 use crate::proficiency::{Proficiency, ProficiencyBonus};
 use crate::skill::SkillId;
 use serde::{Deserialize, Serialize};
-use std::fmt;
+use std::fmt::Display;
 
 macro_rules! accessor {
     ($name:ident, $variant:ident, $type:ident) => {
@@ -99,7 +99,7 @@ pub enum StatisticId {
 }
 
 /// Encapsulates the actual value of a statistic.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, DisplayVariant)]
 enum StatisticValue {
     Race(RaceId),
     Class(ClassId),
@@ -148,21 +148,6 @@ impl StatisticValue {
     }
 }
 
-impl fmt::Display for StatisticValue {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        use StatisticValue::*;
-        match self {
-            Race(_) => write!(f, "Race"),
-            Class(_) => write!(f, "Class"),
-            Level(_) => write!(f, "Level"),
-            HitPoints(_) => write!(f, "HitPoints"),
-            Ability(_) => write!(f, "Ability"),
-            Skill(_) => write!(f, "Skill"),
-            ProficiencyBonus(_) => write!(f, "ProficiencyBonus"),
-        }
-    }
-}
-
 /// Initializer to create a statistic.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[allow(missing_docs)]
@@ -184,22 +169,12 @@ pub struct StatisticsSeed {
 }
 
 /// Encapsulates a change to a statistic.
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, DisplayVariant)]
 pub enum StatisticChange {
     /// A numeric change to hit points.
     HitPoints(i16),
     /// A numeric change to an ability score.
     Ability(AbilityId, i8),
-}
-
-impl fmt::Display for StatisticChange {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        use StatisticChange::*;
-        match self {
-            HitPoints(_) => write!(f, "HitPoints"),
-            Ability(_, _) => write!(f, "Ability"),
-        }
-    }
 }
 
 #[cfg(test)]
