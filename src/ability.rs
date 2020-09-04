@@ -14,7 +14,7 @@ pub struct AbilityId(pub u8);
 
 impl From<u8> for AbilityId {
     fn from(item: u8) -> Self {
-        AbilityId(item)
+        Self(item)
     }
 }
 

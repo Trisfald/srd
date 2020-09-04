@@ -14,12 +14,12 @@ pub struct Action {
 }
 
 impl Action {
-    fn new(id: ActionId, value: ActionValue) -> Self {
+    const fn new(id: ActionId, value: ActionValue) -> Self {
         Self { id, value }
     }
 
     /// Returns a reference to `()` if this action is of the correct type, otherwise an error.
-    pub fn movement(&self) -> SRDResult<()> {
+    pub const fn movement(&self) -> SRDResult<()> {
         if let ActionValue::Movement = &self.value {
             Ok(())
         } else {
@@ -28,7 +28,7 @@ impl Action {
     }
 
     /// Returns a reference to `()` if this action is of the correct type, otherwise an error.
-    pub fn attack(&self) -> SRDResult<()> {
+    pub const fn attack(&self) -> SRDResult<()> {
         if let ActionValue::Attack = &self.value {
             Ok(())
         } else {
@@ -41,8 +41,8 @@ impl From<ActionInitializer> for Action {
     fn from(item: ActionInitializer) -> Self {
         use ActionInitializer::*;
         match item {
-            Movement => Action::new(ActionId::Movement, ActionValue::Movement),
-            Attack => Action::new(ActionId::Attack, ActionValue::Attack),
+            Movement => Self::new(ActionId::Movement, ActionValue::Movement),
+            Attack => Self::new(ActionId::Attack, ActionValue::Attack),
         }
     }
 }

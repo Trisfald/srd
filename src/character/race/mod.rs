@@ -22,7 +22,7 @@ pub struct RaceId(pub String);
 
 impl From<&str> for RaceId {
     fn from(item: &str) -> Self {
-        RaceId(item.to_string())
+        Self(item.to_string())
     }
 }
 

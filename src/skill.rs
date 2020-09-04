@@ -12,7 +12,7 @@ pub struct SkillId(pub u8);
 
 impl From<u8> for SkillId {
     fn from(item: u8) -> Self {
-        SkillId(item)
+        Self(item)
     }
 }
 

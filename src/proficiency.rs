@@ -8,7 +8,7 @@ pub struct Proficiency(pub bool);
 
 impl From<bool> for Proficiency {
     fn from(item: bool) -> Self {
-        Proficiency(item)
+        Self(item)
     }
 }
 
@@ -27,27 +27,27 @@ pub struct ProficiencyBonus(pub u8);
 
 impl ProficiencyBonus {
     /// Multiplies this object by `n` and returns the result in a new `ProficiencyBonus`.
-    pub fn multiply(&self, n: u8) -> ProficiencyBonus {
-        let ProficiencyBonus(value) = self;
-        (value * n).into()
+    pub const fn multiply(&self, n: u8) -> Self {
+        let Self(value) = self;
+        Self(*value * n)
     }
 
     /// Divides this object by `n` and returns the result (rounded down) in a new `ProficiencyBonus`.
-    pub fn divide_rounded_down(&self, n: u8) -> ProficiencyBonus {
-        let ProficiencyBonus(value) = self;
-        (value / n).into()
+    pub const fn divide_rounded_down(&self, n: u8) -> Self {
+        let Self(value) = self;
+        Self(*value / n)
     }
 
     /// Divides this object by `n` and returns the result (rounded up) in a new `ProficiencyBonus`.
-    pub fn divide_rounded_up(&self, n: u8) -> ProficiencyBonus {
-        let ProficiencyBonus(value) = self;
-        ((value + (n - 1)) / n).into()
+    pub const fn divide_rounded_up(&self, n: u8) -> Self {
+        let Self(value) = self;
+        Self((*value + (n - 1)) / n)
     }
 }
 
 impl From<u8> for ProficiencyBonus {
     fn from(item: u8) -> Self {
-        ProficiencyBonus(item)
+        Self(item)
     }
 }
 

@@ -32,7 +32,7 @@ pub struct CharacterId(pub String);
 
 impl From<&str> for CharacterId {
     fn from(item: &str) -> Self {
-        CharacterId(item.to_string())
+        Self(item.to_string())
     }
 }
 

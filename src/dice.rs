@@ -25,7 +25,7 @@ pub enum Die {
 
 impl Die {
     /// Returns the number of sides of a die.
-    pub fn sides(&self) -> u8 {
+    pub const fn sides(&self) -> u8 {
         use Die::*;
         match self {
             D4 => 4,
@@ -39,7 +39,7 @@ impl Die {
     }
 
     // Id of a die.
-    fn id(&self) -> usize {
+    const fn id(&self) -> usize {
         use Die::*;
         match self {
             D4 => 0,
@@ -53,12 +53,12 @@ impl Die {
     }
 
     /// The minimum obtainable value from this die.
-    pub fn min(&self) -> u8 {
+    pub const fn min(&self) -> u8 {
         1
     }
 
     /// The maximum obtainable value from this die.
-    pub fn max(&self) -> u8 {
+    pub const fn max(&self) -> u8 {
         self.sides()
     }
 }
@@ -83,7 +83,7 @@ pub struct DicePool {
 impl DicePool {
     /// Constructs a new `DicePool` from a simple dice.
     pub fn from_dice(dice: Dice) -> Self {
-        let mut instance = DicePool::default();
+        let mut instance = Self::default();
         instance.add_dice(dice);
         instance
     }
@@ -96,18 +96,22 @@ impl DicePool {
 }
 
 /// A dice roll is a `Dice` plus a modifier to be added to the final result.
-#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, new)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub struct DiceRoll {
     /// The dice to be rolled.
     pub dice: Dice,
     /// A numerical modifier to be added to the dice roll's result.
-    #[new(default)]
     pub modifier: i16,
 }
 
 impl DiceRoll {
+    /// Constructs a new `DiceRoll`.
+    pub const fn new(dice: Dice) -> Self {
+        Self { dice, modifier: 0 }
+    }
+
     /// Constructs a new `DiceRoll` with an additional modifier.
-    pub fn with_modifier(dice: Dice, modifier: i16) -> Self {
+    pub const fn with_modifier(dice: Dice, modifier: i16) -> Self {
         Self { dice, modifier }
     }
 }
@@ -158,13 +162,13 @@ impl DiceRolls {
 
 impl From<DiceRoll> for DiceRolls {
     fn from(item: DiceRoll) -> Self {
-        DiceRolls::from_roll(item)
+        Self::from_roll(item)
     }
 }
 
 impl From<DicePool> for DiceRolls {
     fn from(item: DicePool) -> Self {
-        DiceRolls::from_pool(item)
+        Self::from_pool(item)
     }
 }
 
