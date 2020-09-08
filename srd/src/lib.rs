@@ -6,6 +6,9 @@
 #[macro_use]
 extern crate derive_new;
 
+#[macro_use]
+extern crate srd_macros;
+
 pub mod ability;
 pub use self::ability::{AbilityId, AbilityScore};
 

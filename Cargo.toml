@@ -1,19 +1,7 @@
-[package]
-name = "srd"
-version = "0.1.0"
-authors = ["Trisfald <trisfald@gmail.com>"]
-edition = "2018"
-build = "build.rs"
-description = "Systems Reference Document (SRD) software implementation based on the weasel crate."
-readme = "README.md"
-repository = "https://github.com/Trisfald/srd"
-documentation = "https://docs.rs/srd"
-keywords = ["game", "weasel", "turn-based"]
-categories = ["game-development"]
-license = "OGL"
+[workspace]
 
-[dependencies]
-weasel = { version = "0.10", features = ["random", "serialization"] }
-log = "0.4"
-serde = { version = "1.0", features = ["derive"] }
-derive-new = "0.5"
+members = [
+  "srd",
+  "srd-macros",
+  "examples",
+]
