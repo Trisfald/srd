@@ -39,6 +39,7 @@ impl CharacterSpawner<'_> {
         self.add_base_statistics(&mut seed)?;
         self.add_abilities(&mut seed);
         self.add_skills(&mut seed);
+        self.add_speed(&mut seed);
         Ok(seed)
     }
 

@@ -159,6 +159,7 @@ pub enum StatisticInitializer {
     Ability(AbilityId, AbilityScore),
     Skill(SkillId, Proficiency),
     ProficiencyBonus(ProficiencyBonus),
+    Speed(SpeedBonus),
 }
 
 /// `StatisticsSeed` is used to generate all statistics of a creature.

@@ -46,3 +46,5 @@ pub use self::skill::SkillId;
 pub mod util;
 
 pub mod value;
+
+pub mod speed;
