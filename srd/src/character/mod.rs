@@ -147,7 +147,7 @@ impl Character {
             .expect("race model not found");
         self.raw_abilities().map(move |(ability_id, mut score)| {
             if let Some((_, bonus)) = race_model
-                .ability_score_increase()
+                .ability_score_increases()
                 .iter()
                 .find(|(bonus_id, _)| *bonus_id == ability_id)
             {
@@ -197,7 +197,7 @@ impl Character {
         if let Some(bonus) = compendium()
             .race_model(&self.race)
             .expect("race model not found")
-            .ability_score_increase()
+            .ability_score_increases()
             .iter()
             .find(|(id, _)| *id == CONSTITUTION)
             .map(|(_, bonus)| bonus)

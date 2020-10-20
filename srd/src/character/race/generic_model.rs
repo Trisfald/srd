@@ -2,24 +2,31 @@
 
 use crate::ability::{AbilityId, AbilityScore};
 use crate::character::race::RaceModel;
+use crate::rules::core::size::CreatureSize;
 
 /// A generic race model implementation.
-#[derive(Default, new)]
+#[derive(new)]
 pub struct GenericRaceModel {
-    ability_score_increase: Vec<(AbilityId, AbilityScore)>,
+    #[new(default)]
+    ability_score_increases: Vec<(AbilityId, AbilityScore)>,
+    size: CreatureSize,
 }
 
 impl GenericRaceModel {
     /// Adds a new ability score increase.
     pub fn add_ability_score_increase(&mut self, id: AbilityId, score: AbilityScore) -> &mut Self {
-        self.ability_score_increase.push((id, score));
+        self.ability_score_increases.push((id, score));
         self
     }
 }
 
 impl RaceModel for GenericRaceModel {
-    fn ability_score_increase(&self) -> &[(AbilityId, AbilityScore)] {
-        &self.ability_score_increase
+    fn ability_score_increases(&self) -> &[(AbilityId, AbilityScore)] {
+        &self.ability_score_increases
+    }
+
+    fn size(&self) -> CreatureSize {
+        self.size
     }
 }
 
@@ -29,10 +36,10 @@ mod tests {
 
     #[test]
     fn new() {
-        let model = GenericRaceModel::new(vec![
-            (AbilityId(0), AbilityScore::capped(1)),
-            (AbilityId(2), AbilityScore::capped(2)),
-        ]);
-        assert_eq!(model.ability_score_increase().len(), 2);
+        let mut model = GenericRaceModel::new(CreatureSize::Medium);
+        model.add_ability_score_increase(AbilityId(0), AbilityScore::capped(1));
+        model.add_ability_score_increase(AbilityId(2), AbilityScore::capped(2));
+        assert_eq!(model.ability_score_increases().len(), 2);
+        assert_eq!(model.size(), CreatureSize::Medium);
     }
 }

@@ -5,15 +5,34 @@ use crate::character::class::ClassId;
 use crate::character::level::Level;
 use crate::character::race::RaceId;
 use crate::error::{SRDError, SRDResult};
+use crate::hit_points::HitPoints;
 use crate::proficiency::Proficiency;
 use crate::rules::core::action::Action;
-use crate::rules::core::StatisticId;
+use crate::rules::core::{CreatureSize, StatisticId};
 use crate::rules::SRDRules;
 use crate::skill::SkillId;
 use weasel::{
     creature::CreatureId, space::Position, Actor, BattleController, Character, Creature, Entity,
     EventProcessor, Id, WeaselError, WeaselResult,
 };
+
+/// Macro to generate an accessor to a creature statistic.
+macro_rules! statistic_accessor {
+    ($name:ident, $variant_id:ident, $value:ident) => {
+        /// Returns the creature's $name.
+        ///
+        /// # Errors
+        ///
+        /// An error is returned if the creature no longer exists or if it doesn't have a $name.
+        ///
+        pub fn $name(&self) -> SRDResult<&$value> {
+            self.creature()?
+                .statistic(&StatisticId::$variant_id)
+                .ok_or_else(|| SRDError::StatisticNotFound(StatisticId::$variant_id))?
+                .$name()
+        }
+    };
+}
 
 /// This macro generates all methods for a `CreatureHandle(Mut)` that do not require a mutable access
 /// to the event processor.
@@ -33,45 +52,6 @@ macro_rules! generate_immutable_methods {
             &self.id
         }
 
-        /// Returns the creature's race.
-        ///
-        /// # Errors
-        ///
-        /// An error is returned if the creature no longer exists or if it doesn't have a race.
-        ///
-        pub fn race(&self) -> SRDResult<&RaceId> {
-            self.creature()?
-                .statistic(&StatisticId::Race)
-                .ok_or_else(|| SRDError::StatisticNotFound(StatisticId::Race))?
-                .race()
-        }
-
-        /// Returns the creature's class.
-        ///
-        /// # Errors
-        ///
-        /// An error is returned if the creature no longer exists or if it doesn't have a class.
-        ///
-        pub fn class(&self) -> SRDResult<&ClassId> {
-            self.creature()?
-                .statistic(&StatisticId::Class)
-                .ok_or_else(|| SRDError::StatisticNotFound(StatisticId::Class))?
-                .class()
-        }
-
-        /// Returns the creature's level.
-        ///
-        /// # Errors
-        ///
-        /// An error is returned if the creature no longer exists or if it doesn't have a level.
-        ///
-        pub fn level(&self) -> SRDResult<&Level> {
-            self.creature()?
-                .statistic(&StatisticId::Level)
-                .ok_or_else(|| SRDError::StatisticNotFound(StatisticId::Level))?
-                .level()
-        }
-
         /// Returns the creature's position.
         ///
         /// # Errors
@@ -81,6 +61,16 @@ macro_rules! generate_immutable_methods {
         pub fn position(&self) -> SRDResult<&Position<SRDRules>> {
             Ok(self.creature()?.position())
         }
+
+        statistic_accessor! {race, Race, RaceId}
+
+        statistic_accessor! {class, Class, ClassId}
+
+        statistic_accessor! {level, Level, Level}
+
+        statistic_accessor! {hit_points, HitPoints, HitPoints}
+
+        statistic_accessor! {size, Size, CreatureSize}
 
         /// Returns an iterator over the creature's abilities.
         ///

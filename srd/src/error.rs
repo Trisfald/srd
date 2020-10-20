@@ -62,11 +62,7 @@ impl Display for SRDError {
     }
 }
 
-impl error::Error for SRDError {
-    fn source(&self) -> Option<&(dyn error::Error + 'static)> {
-        None
-    }
-}
+impl error::Error for SRDError {}
 
 impl From<WeaselErrorType<SRDRules>> for SRDError {
     fn from(err: WeaselErrorType<SRDRules>) -> Self {
